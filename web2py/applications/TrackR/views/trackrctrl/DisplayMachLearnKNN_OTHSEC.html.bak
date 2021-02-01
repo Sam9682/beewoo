@@ -1,0 +1,137 @@
+{{extend 'layout.html'}}
+{{import os}}
+
+<head>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAA_Gs-eVUJmLAwvWzyypbB9wdnf0WxIAY"></script>
+</head>
+
+<body>
+    <h1>Classification KNN de OTHSEC: @IPsrc + @IPdst + #SYN + #RST</h1>
+    <form>
+        <table>
+            <tr>
+                <td>
+                    Paramètre n_neighbors
+                </td>
+                <td>
+                    <input id="n_neighbors_value" name="n_neighbors_value"></input>
+                </td>
+                <td>
+                    <div class="slidecontainer" style="width:600px">
+                        <input type="range" min="0" max="100" value="2" class="slider_n_neighbors" id="slider_n_neighbors"></input>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Paramètre h
+                </td>
+                <td>
+                    <input id="h_value" name="h_value"></input>
+                </td>
+                <td>
+                    <div class="slidecontainer" style="width:600px">
+                        <input type="range" min="0" max="100" value="1" class="slider_h" id="slider_h"></input>
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+
+        <br>
+        <input type="submit" value="Lancer KNN Machine Learning" enctype="multipart/form-data" action="{{=URL()}}" method="post">
+    </form>
+
+    <script>
+        var sliderNeighbors = document.getElementById("slider_n_neighbors");
+        var outputNeighbors = document.getElementById("n_neighbors_value");
+        var sliderH = document.getElementById("slider_h");
+        var outputH = document.getElementById("h_value");
+
+        var aStep = 1 / 100;
+        outputNeighbors.value = 2;
+        outputH.value = (2 * aStep).toFixed(8);
+
+        sliderNeighbors.oninput = function() {
+          outputNeighbors.value = this.value;
+        }
+        sliderH.oninput = function() {
+          aStep = 1 / 100;
+          outputH.value = (this.value * aStep).toFixed(8);
+        }
+    </script>
+
+{{if (nameOfImage is None) or  (nameOfImage == ''): }}
+{{else:}}
+
+    <b>IPANALYZED(nu={{=float(request.vars.n_neighbors_value)}}, gamma={{=float(request.vars.h_value)}})}})<br>Nb traffic IP suspect :  sur un total de  soit  %<br></b>
+
+    {{=IMG(_src=nameOfImage, _width="800px", _height="600px")}}
+
+    <div id="map-canvas" style="height:600px;width:1000px"></div>
+
+    <script type="text/javascript">
+        (function()
+        {
+            var map;
+            var mapOptions;
+            var myLatlng;
+            var marker;
+            var image;
+            var sizeico = 20;
+            var imageHacked = {
+                    url: "https://maps.google.com/mapfiles/kml/pal3/icon47.png",
+                    scaledSize: new google.maps.Size(sizeico, sizeico),
+                    anchor: new google.maps.Point(sizeico/2, sizeico/2)
+                };
+            var imageNormal = {
+                    url: "http://labs.google.com/ridefinder/images/mm_20_green.png",
+                    size: new google.maps.Size(sizeico, sizeico),
+                    anchor: new google.maps.Point(sizeico/2, sizeico/2)
+                };
+
+            function initialize()
+            {
+                myLatLng = new google.maps.LatLng(48.856614, 2.3522219);
+                mapOptions = { zoom: 2, minZoom: 2, center: myLatLng };
+                map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+            };
+
+            function addMark(lon, lat, IP_addr, IsBanned)
+            {
+                 if ( (lat != 0) || (lon != 0) ) {
+                     if (IsBanned > 0) {
+                         image = imageHacked;
+                     }
+                     else
+                     {
+                         image = imageNormal;
+                     }
+                     var marker = new google.maps.Marker({ position: new google.maps.LatLng( lon, lat), map:map, title: IP_addr + '(' + IsBanned + ')', icon: image});
+                     jQuery('#list_push').append('<OPTION>'+IP_addr+'</OPTION>');
+                 }
+            };
+
+            function show_result()
+            {
+                document.write("{latitude, longitude, sum(tcph_syn), sum(tcph_rst)}<br>");
+                {{
+                i = 0
+                for elem in abnormal:
+                    if (float(elem[0]) != 0) & (float(elem[1]) != 0):
+                        }}
+                        addMark({{=float(elem[0])}} , {{=float(elem[1])}}, "{{=str(table_ip[i])}}", true);
+                        document.write("{" + {{=float(elem[0])}} + ", " + {{=float(elem[1])}} + ", " + "{{=str(table_ip[i])}}" + ", " + {{=float(elem[2])}} + ", " + {{=float(elem[3])}} + "}<br>");
+                    {{pass
+                    i = i + 1
+                pass}}
+
+            }
+
+            google.maps.event.addDomListener(window, 'load', initialize());
+            show_result();
+        })();
+    </script>
+{{pass}}
+</body>

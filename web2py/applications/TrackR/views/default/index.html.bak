@@ -1,0 +1,218 @@
+{{extend 'layout.html'}}
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAA_Gs-eVUJmLAwvWzyypbB9wdnf0WxIAY"></script>
+<head>
+    <h1 style="font-size: 16pt; color: green">Quels sont les serveurs dans le monde qui échangent des données avec votre PC ?</h1>
+</head>
+<body>
+<font face="Arial, serif" size="2" style="font-size: 8pt">
+
+<table width="100%" cellpadding="4" cellspacing="0">
+    <tr>
+        <td align="center" width="35%" style="border: 1px solid #000000; padding: 0.1cm">
+            Nbr données brutes OTHSEC
+        </td>
+        <td align="center" width="35%" style="border: 1px solid #000000; padding: 0.1cm">
+            Nbr données filtrées IPANALYZED
+        </td>
+        <td align="center" width="15%" style="border: 1px solid #000000; padding: 0.1cm">
+            Nbr IP Banned LOGANALYZED
+        </td>
+        <td align="center" width="15%" style="border: 1px solid #000000; padding: 0.1cm">
+            Nbr IP Trustee LOGANALYZED
+        </td>
+    </tr>
+    <tr>
+        <td align="center" width="35%" style="border: 1px solid #000000; padding: 0.1cm">
+{{
+    SQLstr = "select count(*) from othsec;"
+    rows = db.executesql(SQLstr)
+    for row in rows:
+            ='#ENREG('+str(row[0])+'), '
+        pass
+
+    SQLstr = "select min(datetime_remote) from othsec;"
+    rows = db.executesql(SQLstr)
+    for row in rows:
+        ='DATE_MIN('+str(row[0])+'), '
+        pass
+
+    SQLstr = "select max(datetime_remote) from othsec;"
+    rows = db.executesql(SQLstr)
+    for row in rows:
+        ='DATE_MAX('+str(row[0])+')'
+        pass
+}}
+        </td>
+        <td align="center" width="35%" style="border: 1px solid #000000; padding: 0.1cm">
+{{
+    SQLstr = "select count(*) from ipanalyzed;"
+    rows = db.executesql(SQLstr)
+    for row in rows:
+        ='#ENREG('+str(row[0])+'), '
+        pass
+
+    SQLstr = "select sum(tcph_syn), sum(tcph_rst) from ipanalyzed;"
+    rows = db.executesql(SQLstr)
+    for row in rows:
+        ='#TCP_SYN('+str(row[0])+'), '
+        ='#TCP_RST('+str(row[1])+'), '
+        pass
+
+    SQLstr = "select count(distinct(ip_addr)) from ipanalyzed;"
+    rows = db.executesql(SQLstr)
+    for row in rows:
+        ='#IP('+str(row[0])+')'
+        pass
+
+    SQLstr = "select count(distinct(tcp_protocol)) from ipanalyzed;"
+    rows = db.executesql(SQLstr)
+    for row in rows:
+        ='#PROTOCOL('+str(row[0])+')'
+        pass
+}}
+        </td>
+        <td align="center" width="15%" style="border: 1px solid #000000; padding: 0.1cm">
+{{
+    SQLstr = "select count(*) from loganalyzed where Banned > 0;"
+    rows = db.executesql(SQLstr)
+    for row in rows:
+        ='TOTAL('+str(row[0])+')'
+        pass
+}}
+        </td>
+        <td align="center" width="15%" style="border: 1px solid #000000; padding: 0.1cm">
+{{
+    SQLstr = "select count(*) from loganalyzed where Banned < 0;"
+    rows = db.executesql(SQLstr)
+    for row in rows:
+        ='TOTAL('+str(row[0])+')'
+        pass
+}}
+        </td>
+    </tr>
+</table>
+
+<table width="100%" cellpadding="4" cellspacing="0">
+	<col width="85*">
+	<col width="85*">
+	<col width="85*">
+	<col width="85*">
+    <tr valign="top">
+		<td align="left" width="20%" style="border: 1px solid #000000; padding: 0.1cm">
+			<font color="#c00000" face="Arial, serif" size="8" style="font-size: 10pt"><b>1. Regardez le tutorial (vidéo):</b></font>
+            <p align="left"; style="font-variant: normal; letter-spacing: normal; font-style: normal; text-decoration: none">
+			<font color="#002060" style="font-size: 8pt">
+            <ul style="padding-left: 1.8em;">
+                <li><u>{{=A('TUTO pour utiliser BEEWOO',_href=URL('static','tuto_beewoo_3_sites.webm'))}}</u></li>
+            </ul>
+            </font></p>
+		</td>
+
+        <td align="left" width="30%" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0.1cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<font color="#c00000" style="font-size: 10pt"><b>2. Téléchargez le sniffer autonome sur votre PC :</b></font>
+            <p align="left"; style="font-variant: normal; letter-spacing: normal; font-style: normal; text-decoration: none">
+			<font color="#002060" style="font-size: 8pt">
+                <ul style="padding-left: 1.8em;">
+                    <table width="100%" cellpadding="4" cellspacing="0">
+                    <td><u>{{=A('WINDOWS 10+',_href=URL('static','beewoo_win10-x86.zip'))}}</u></td>
+                    <td><u>{{=A('Ubuntu 18+',_href=URL('static','beewoo_ubuntu.18.04-x64.zip'))}}</u></td>
+                    <td><u>{{=A('MacOS 10.12+',_href=URL('static','beewoo_osx.10.12-x64.zip'))}}</u></td>
+                    </table>
+                </ul>
+             </font>
+		</td>
+
+		<td align="left" width="50%" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0.1cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<font color="#c00000"  style="font-size: 10pt"><b>3. Exécutez le sniffer et visualisez votre traffic Internet :</b></font>
+            <p align="left"; style="font-variant: normal; letter-spacing: normal; font-style: normal; text-decoration: none">
+			<font color="#002060" style="font-size: 8pt">
+                <ul style="padding-left: 1.8em;">
+                    <li style="margin-bottom: 0.2cm; line-height: 100%;">{{=A("Voir la procédure d'exécution d'OTHSEC en détail pour Windows/Linux/MacOS",_href=URL('othsec', 'ClientoThSecWebSocket', scheme='https'))}}</li>
+                </ul>
+			</font></p>
+		</td>
+
+    </tr>
+</table>
+</font>
+
+<table width="100%" cellpadding="4" cellspacing="0">
+	<col width="85*">
+	<col width="85*">
+	<col width="85*">
+
+    <tr valign="top">
+        <td align="center" width="50%" style="border-top: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0.1cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm"><p style="font-variant: normal; letter-spacing: normal; font-style: normal; text-decoration: none"><font color="#c00000"><b>Contexte</b></font></p>
+	  </td>
+    <td align="center" width="50%" style="border-top: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0.1cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm"><p><span style="font-variant: normal"><span style="text-decoration: none; style=letter-spacing: normal; font-style: normal"><font color="#c00000"><b>Enjeux</b></font></span></p>
+	  </td>
+	</tr>
+
+	<tr valign="top">
+		<td width="33%" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p align="left" style="margin-bottom: 0cm; font-variant: normal; letter-spacing: normal; font-style: normal; text-decoration: none">
+			<b>Les cas de fraudes sur Internet explosent : </b>
+                <font color="#002060">
+                les applications hébergées sur le Cloud se généralisent augmentant les échanges entre son PC et Internet</p>
+			<p align="left" style="margin-bottom: 0cm"><span style="font-variant: normal; text-decoration: none; letter-spacing: normal; font-style: normal">
+                <b>RGPD - Toujours aucune visibilité en temps réel: </b></span><span style="font-variant: normal; color=#002060; text-decoration: none; letter-spacing: normal; font-style: normal; font-weight: normal">
+                l'absence sur votre PC de tableau de bord pour une certaine visibilité des flux Internet en temps réel, et un contrôle intelligent de ces flux</span>
+                </font>
+			</p>
+		</td>
+		<td width="33%" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p style="margin-bottom: 0cm"><span style="font-variant: normal; color=#c00000; text-decoration: none; letter-spacing: normal; font-style: normal">
+            <font color="#002060">
+            <b>Renforcement de vos droits (RGPD): </b></span><span style="font-variant: normal; letter-spacing: normal; font-style: normal; font-weight: normal">
+                géolocaliser et mesurer le risque en temps réel des flux Internet et afficher une carte de l'exposition sur Internet. Portez plainte auprès de la CNIL !</span></p>
+			<p align="left" style="margin-bottom: 0cm; font-variant: normal; letter-spacing: normal; font-style: normal; text-decoration: none">
+			<b>Améliorer la lutte contre le Hack : </b></font></font></font>
+			réaliser un modèle de détection d'intrusions afin de protéger les ordinateurs contre les activités malveillantes (signaux faibles)</font></p>
+		</td>
+	</tr>
+</table>
+
+<br>
+<div id='position_disp'></div>
+<div id="map-canvas" style="height:600px;width:100%"></div>
+
+<script type="text/javascript">
+var map;
+var mapOptions;
+var myLatlng;
+var marker;
+var x = document.getElementById("position_disp");
+if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+}
+function showPosition(position) {
+    myLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    x.innerHTML = 'Long = ' + position.coords.longitude + ' - Lat = ' + position.coords.latitude;
+    marker = new google.maps.Marker({ position: myLatLng, map:map, title:"I entered Internet from here !" });
+    map.setCenter(myLatLng);
+    smoothZoom(map, 12, map.getZoom());
+}
+function initialize() {
+    mapOptions = { zoom: 2, minZoom: 2, center: new google.maps.LatLng(48.856614, 2.3522219) };
+
+    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+};
+
+// the smooth zoom function
+function smoothZoom (map, max, cnt) {
+    if (cnt >= max) {
+        return;
+    }
+    else {
+        z = google.maps.event.addListener(map, 'zoom_changed', function(event){
+            google.maps.event.removeListener(z);
+            smoothZoom(map, max, cnt + 1);
+        });
+        setTimeout(function(){map.setZoom(cnt)}, 999);
+    }
+}
+
+google.maps.event.addDomListener(window, 'load', initialize());
+</script>
+</body>

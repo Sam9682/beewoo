@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <StartupObject>othsec.Program</StartupObject>
+    <ApplicationManifest>app1.manifest</ApplicationManifest>
+    <Version>1.0.1</Version>
+    <Description>Version based on DOTNET 3.1</Description>
+    <Copyright>opensource license Samuel LEPETRE</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="obj\Debug\netcoreapp2.0\" />
+  </ItemGroup>
+
+</Project>

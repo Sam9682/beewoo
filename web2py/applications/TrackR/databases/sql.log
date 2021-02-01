@@ -1,0 +1,269 @@
+timestamp: 2018-09-20T15:53:35.414332
+CREATE TABLE "auth_user"(
+    "id" SERIAL PRIMARY KEY,
+    "first_name" VARCHAR(128),
+    "last_name" VARCHAR(128),
+    "email" VARCHAR(512),
+    "password" VARCHAR(512),
+    "registration_key" VARCHAR(512),
+    "reset_password_key" VARCHAR(512),
+    "registration_id" VARCHAR(512)
+);
+timestamp: 2018-09-20T15:53:36.493155
+CREATE TABLE "auth_user"(
+    "id" SERIAL PRIMARY KEY,
+    "first_name" VARCHAR(128),
+    "last_name" VARCHAR(128),
+    "email" VARCHAR(512),
+    "password" VARCHAR(512),
+    "registration_key" VARCHAR(512),
+    "reset_password_key" VARCHAR(512),
+    "registration_id" VARCHAR(512)
+);
+timestamp: 2018-09-20T15:53:59.353286
+CREATE TABLE "auth_user"(
+    "id" SERIAL PRIMARY KEY,
+    "first_name" VARCHAR(128),
+    "last_name" VARCHAR(128),
+    "email" VARCHAR(512),
+    "password" VARCHAR(512),
+    "registration_key" VARCHAR(512),
+    "reset_password_key" VARCHAR(512),
+    "registration_id" VARCHAR(512)
+);
+timestamp: 2018-09-20T15:53:59.748112
+CREATE TABLE "auth_user"(
+    "id" SERIAL PRIMARY KEY,
+    "first_name" VARCHAR(128),
+    "last_name" VARCHAR(128),
+    "email" VARCHAR(512),
+    "password" VARCHAR(512),
+    "registration_key" VARCHAR(512),
+    "reset_password_key" VARCHAR(512),
+    "registration_id" VARCHAR(512)
+);
+timestamp: 2018-09-20T15:54:12.048243
+CREATE TABLE "auth_user"(
+    "id" SERIAL PRIMARY KEY,
+    "first_name" VARCHAR(128),
+    "last_name" VARCHAR(128),
+    "email" VARCHAR(512),
+    "password" VARCHAR(512),
+    "registration_key" VARCHAR(512),
+    "reset_password_key" VARCHAR(512),
+    "registration_id" VARCHAR(512)
+);
+timestamp: 2018-09-20T15:54:12.930054
+CREATE TABLE "auth_user"(
+    "id" SERIAL PRIMARY KEY,
+    "first_name" VARCHAR(128),
+    "last_name" VARCHAR(128),
+    "email" VARCHAR(512),
+    "password" VARCHAR(512),
+    "registration_key" VARCHAR(512),
+    "reset_password_key" VARCHAR(512),
+    "registration_id" VARCHAR(512)
+);
+timestamp: 2018-09-20T15:54:25.504729
+CREATE TABLE "auth_user"(
+    "id" SERIAL PRIMARY KEY,
+    "first_name" VARCHAR(128),
+    "last_name" VARCHAR(128),
+    "email" VARCHAR(512),
+    "password" VARCHAR(512),
+    "registration_key" VARCHAR(512),
+    "reset_password_key" VARCHAR(512),
+    "registration_id" VARCHAR(512)
+);
+timestamp: 2018-09-20T15:54:26.405726
+CREATE TABLE "auth_user"(
+    "id" SERIAL PRIMARY KEY,
+    "first_name" VARCHAR(128),
+    "last_name" VARCHAR(128),
+    "email" VARCHAR(512),
+    "password" VARCHAR(512),
+    "registration_key" VARCHAR(512),
+    "reset_password_key" VARCHAR(512),
+    "registration_id" VARCHAR(512)
+);
+timestamp: 2018-09-20T15:54:44.275026
+CREATE TABLE "auth_user"(
+    "id" SERIAL PRIMARY KEY,
+    "first_name" VARCHAR(128),
+    "last_name" VARCHAR(128),
+    "email" VARCHAR(512),
+    "password" VARCHAR(512),
+    "registration_key" VARCHAR(512),
+    "reset_password_key" VARCHAR(512),
+    "registration_id" VARCHAR(512)
+);
+faked!
+timestamp: 2018-09-20T15:54:44.333019
+CREATE TABLE "auth_group"(
+    "id" SERIAL PRIMARY KEY,
+    "role" VARCHAR(512),
+    "description" TEXT
+);
+faked!
+timestamp: 2018-09-20T15:54:44.369077
+CREATE TABLE "auth_membership"(
+    "id" SERIAL PRIMARY KEY,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  
+);
+faked!
+timestamp: 2018-09-20T15:54:44.419849
+CREATE TABLE "auth_permission"(
+    "id" SERIAL PRIMARY KEY,
+    "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  ,
+    "name" VARCHAR(512),
+    "table_name" VARCHAR(512),
+    "record_id" INTEGER
+);
+faked!
+timestamp: 2018-09-20T15:54:44.474636
+CREATE TABLE "auth_event"(
+    "id" SERIAL PRIMARY KEY,
+    "time_stamp" TIMESTAMP,
+    "client_ip" VARCHAR(512),
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "origin" VARCHAR(512),
+    "description" TEXT
+);
+faked!
+timestamp: 2018-09-20T15:54:44.532619
+CREATE TABLE "auth_cas"(
+    "id" SERIAL PRIMARY KEY,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "created_on" TIMESTAMP,
+    "service" VARCHAR(512),
+    "ticket" VARCHAR(512),
+    "renew" CHAR(1)
+);
+faked!
+timestamp: 2018-09-20T15:54:44.616127
+CREATE TABLE "ipligence2"(
+    "id" SERIAL PRIMARY KEY,
+    "ip_from" INTEGER,
+    "ip_to" INTEGER,
+    "country_code" VARCHAR(10),
+    "country_name" VARCHAR(255),
+    "continent_code" VARCHAR(10),
+    "continent_name" VARCHAR(255),
+    "time_zone" VARCHAR(10),
+    "region_code" VARCHAR(10),
+    "region_name" VARCHAR(255),
+    "the_owner" VARCHAR(255),
+    "city_name" VARCHAR(255),
+    "county_name" VARCHAR(255),
+    "latitude" FLOAT8,
+    "longitude" FLOAT8
+);
+faked!
+timestamp: 2018-09-20T15:54:44.811641
+CREATE TABLE "othsec"(
+    "id" SERIAL PRIMARY KEY,
+    "idn" VARCHAR(20),
+    "username" VARCHAR(30),
+    "protocol" VARCHAR(8),
+    "datetime_remote" TIMESTAMP,
+    "datetime_othsec" TIMESTAMP,
+    "addr_from" VARCHAR(40),
+    "addr_to" VARCHAR(40),
+    "port_from" VARCHAR(10),
+    "port_to" VARCHAR(10),
+    "eth_mac_from" VARCHAR(12),
+    "eth_mac_to" VARCHAR(12),
+    "iph_version" INTEGER,
+    "iph_iphdrlen" INTEGER,
+    "iph_tos" INTEGER,
+    "iph_tot_len" INTEGER,
+    "iph_id" INTEGER,
+    "iph_ttl" INTEGER,
+    "iph_protocol" INTEGER,
+    "iph_check" INTEGER,
+    "ip6_vfc" INTEGER,
+    "ip6_flow" INTEGER,
+    "ip6_plen" INTEGER,
+    "ip6_nxt" INTEGER,
+    "ip6_hlim" INTEGER,
+    "ip6_hops" INTEGER,
+    "tcph_seq" INTEGER,
+    "tcph_ack_seq" INTEGER,
+    "tcph_doff" INTEGER,
+    "tcph_urg" CHAR(1),
+    "tcph_ack" CHAR(1),
+    "tcph_psh" CHAR(1),
+    "tcph_rst" CHAR(1),
+    "tcph_syn" CHAR(1),
+    "tcph_fin" CHAR(1),
+    "tcph_window" INTEGER,
+    "tcph_check" INTEGER,
+    "tcph_urg_ptr" INTEGER,
+    "body_message" VARCHAR(255)
+);
+faked!
+timestamp: 2018-09-20T15:54:45.067338
+CREATE TABLE "ipanalyzed"(
+    "id" SERIAL PRIMARY KEY,
+    "idn" VARCHAR(20),
+    "username" VARCHAR(30),
+    "datetime" TIMESTAMP,
+    "ip_version" INTEGER,
+    "tcp_protocol" INTEGER,
+    "ip_addr" VARCHAR(40),
+    "port" VARCHAR(10),
+    "mac" VARCHAR(12),
+    "status" VARCHAR(10),
+    "risk" INTEGER,
+    "hits" INTEGER,
+    "longitude" FLOAT8,
+    "latitude" FLOAT8,
+    "tcph_rst" INTEGER,
+    "tcph_psh" INTEGER,
+    "tcph_fin" INTEGER,
+    "tcph_ack" INTEGER,
+    "tcph_syn" INTEGER,
+    "tcph_urg" INTEGER
+);
+faked!
+timestamp: 2018-09-20T15:54:45.216979
+CREATE TABLE "loganalyzed"(
+    "id" SERIAL PRIMARY KEY,
+    "idn" VARCHAR(20),
+    "username" VARCHAR(30),
+    "logon" VARCHAR(30),
+    "datetime" TIMESTAMP,
+    "protocol" VARCHAR(8),
+    "ip_addr" VARCHAR(40),
+    "port" VARCHAR(10),
+    "service" VARCHAR(50),
+    "status" VARCHAR(10),
+    "conn_tries" INTEGER,
+    "auth_failure" INTEGER,
+    "banned" INTEGER,
+    "longitude" FLOAT8,
+    "latitude" FLOAT8
+);
+faked!
+timestamp: 2018-09-20T15:54:45.303041
+CREATE TABLE "rtc"(
+    "id" SERIAL PRIMARY KEY,
+    "access_token" VARCHAR(512)
+);
+faked!
+timestamp: 2018-09-20T15:54:45.352699
+CREATE TABLE "params"(
+    "id" SERIAL PRIMARY KEY,
+    "username" VARCHAR(30),
+    "knn_n_neighbors" FLOAT8,
+    "knn_h" FLOAT8,
+    "svm_nu" FLOAT8,
+    "svm_gamma" FLOAT8,
+    "svm_kernel" VARCHAR(20)
+);
+faked!
+timestamp: 2018-09-20T17:42:03.276421
+ALTER TABLE "othsec" ADD "iph_offset" INTEGER;
+faked!
+success!

@@ -1,0 +1,16 @@
+{{extend 'layout.html'}}
+
+<html>
+    <head>
+        <link rel="stylesheet" href="http://localhost/TrackR/static/js/xterm.css?id=staticjs%2Fxterm__css" />
+    </head>
+    <body>
+
+        <div id="terminal"></div>
+        <input type="text" id="aTrace" name="aTrace" />
+        <input type="text" id="target" name="target" />
+
+        {{=gridOTHSEC}}
+
+    </body>
+</html>

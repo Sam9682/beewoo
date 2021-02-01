@@ -1,0 +1,1758 @@
+Traceback (most recent call last):
+  File "gluon/contrib/websocket_messaging.py", line 239, in <module>
+    tornado.ioloop.IOLoop.instance().start()
+  File "/usr/lib/python2.7/dist-packages/tornado/ioloop.py", line 841, in start
+    event_pairs = self._impl.poll(poll_timeout)
+KeyboardInterrupt
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+
+please visit:
+	https://127.0.0.1:443/
+use "kill -SIGTERM 9998" to shutdown the web2py server
+
+
+2018-09-02 00:46:35,231 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-02 00:46:35,255 - Rocket.Errors.Thread-6 - ERROR - Tried to send "400 Bad Request" to client but received socket error
+2018-09-02 00:46:35,263 - Rocket.Errors.Thread-7 - ERROR - Tried to send "400 Bad Request" to client but received socket error
+2018-09-02 01:43:34,027 - Rocket.Errors.Thread-4 - ERROR - Tried to send "400 Bad Request" to client but received socket error
+2018-09-02 21:52:18,006 - Rocket.Errors.Thread-5 - ERROR - Traceback (most recent call last):
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1830, in run_app
+    self.environ = environ = self.build_environ(sock_file, conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1650, in build_environ
+    request = self.read_request_line(sock_file)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1388, in read_request_line
+    d = sock_file.readline()
+
+  File "/usr/lib/python2.7/socket.py", line 451, in readline
+    data = self._sock.recv(self._rbufsize)
+
+  File "/usr/lib/python2.7/ssl.py", line 756, in recv
+    return self.read(buflen)
+
+  File "/usr/lib/python2.7/ssl.py", line 643, in read
+    v = self._sslobj.read(len)
+
+SSLError: [SSL: TLSV1_ALERT_UNKNOWN_CA] tlsv1 alert unknown ca (_ssl.c:1754)
+
+2018-09-02 21:52:18,007 - Rocket.Errors.Thread-5 - ERROR - Tried to send "500 Server Error" to client but received socket error
+2018-09-02 21:52:18,019 - Rocket.Errors.Thread-6 - ERROR - Traceback (most recent call last):
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1830, in run_app
+    self.environ = environ = self.build_environ(sock_file, conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1650, in build_environ
+    request = self.read_request_line(sock_file)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1388, in read_request_line
+    d = sock_file.readline()
+
+  File "/usr/lib/python2.7/socket.py", line 451, in readline
+    data = self._sock.recv(self._rbufsize)
+
+  File "/usr/lib/python2.7/ssl.py", line 756, in recv
+    return self.read(buflen)
+
+  File "/usr/lib/python2.7/ssl.py", line 643, in read
+    v = self._sslobj.read(len)
+
+SSLError: [SSL: TLSV1_ALERT_UNKNOWN_CA] tlsv1 alert unknown ca (_ssl.c:1754)
+
+2018-09-02 21:52:18,020 - Rocket.Errors.Thread-6 - ERROR - Tried to send "500 Server Error" to client but received socket error
+2018-09-02 21:52:27,662 - Rocket.Errors.Thread-10 - ERROR - Traceback (most recent call last):
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1830, in run_app
+    self.environ = environ = self.build_environ(sock_file, conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1650, in build_environ
+    request = self.read_request_line(sock_file)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1388, in read_request_line
+    d = sock_file.readline()
+
+  File "/usr/lib/python2.7/socket.py", line 451, in readline
+    data = self._sock.recv(self._rbufsize)
+
+  File "/usr/lib/python2.7/ssl.py", line 756, in recv
+    return self.read(buflen)
+
+  File "/usr/lib/python2.7/ssl.py", line 643, in read
+    v = self._sslobj.read(len)
+
+SSLError: [SSL: TLSV1_ALERT_UNKNOWN_CA] tlsv1 alert unknown ca (_ssl.c:1754)
+
+2018-09-02 21:52:27,663 - Rocket.Errors.Thread-10 - ERROR - Tried to send "500 Server Error" to client but received socket error
+2018-09-02 21:52:28,821 - Rocket.Errors.Thread-9 - ERROR - Traceback (most recent call last):
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1830, in run_app
+    self.environ = environ = self.build_environ(sock_file, conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1650, in build_environ
+    request = self.read_request_line(sock_file)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1388, in read_request_line
+    d = sock_file.readline()
+
+  File "/usr/lib/python2.7/socket.py", line 451, in readline
+    data = self._sock.recv(self._rbufsize)
+
+  File "/usr/lib/python2.7/ssl.py", line 756, in recv
+    return self.read(buflen)
+
+  File "/usr/lib/python2.7/ssl.py", line 643, in read
+    v = self._sslobj.read(len)
+
+SSLError: [SSL: TLSV1_ALERT_UNKNOWN_CA] tlsv1 alert unknown ca (_ssl.c:1754)
+
+2018-09-02 21:52:28,822 - Rocket.Errors.Thread-9 - ERROR - Tried to send "500 Server Error" to client but received socket error
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+
+please visit:
+	https://127.0.0.1:443/
+use "kill -SIGTERM 21005" to shutdown the web2py server
+
+
+2018-09-03 14:27:03,899 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-03 14:57:03,633 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+
+please visit:
+	https://127.0.0.1:443/
+use "kill -SIGTERM 4907" to shutdown the web2py server
+
+
+Traceback (most recent call last):
+  File "web2py.py", line 32, in <module>
+    gluon.widget.start(cron=True)
+  File "/home/phan/sources/othsec-web/web2py/gluon/widget.py", line 1313, in start
+    interfaces=options.interfaces)
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 774, in __init__
+    handle_signals=False,
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 686, in __init__
+    i, queue_size, self.active_queue) for i in self.interfaces]
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 519, in __init__
+    listener.listen(queue_size)
+  File "/usr/lib/python2.7/socket.py", line 228, in meth
+    return getattr(self._sock,name)(*args)
+socket.error: [Errno 98] Address already in use
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+
+please visit:
+	https://127.0.0.1:443/
+use "kill -SIGTERM 6618" to shutdown the web2py server
+
+
+Traceback (most recent call last):
+  File "web2py.py", line 32, in <module>
+    gluon.widget.start(cron=True)
+  File "/home/phan/sources/othsec-web/web2py/gluon/widget.py", line 1313, in start
+    interfaces=options.interfaces)
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 774, in __init__
+    handle_signals=False,
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 686, in __init__
+    i, queue_size, self.active_queue) for i in self.interfaces]
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 519, in __init__
+    listener.listen(queue_size)
+  File "/usr/lib/python2.7/socket.py", line 228, in meth
+    return getattr(self._sock,name)(*args)
+socket.error: [Errno 98] Address already in use
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+
+please visit:
+	https://127.0.0.1:443/
+use "kill -SIGTERM 7213" to shutdown the web2py server
+
+
+Traceback (most recent call last):
+  File "web2py.py", line 32, in <module>
+    gluon.widget.start(cron=True)
+  File "/home/phan/sources/othsec-web/web2py/gluon/widget.py", line 1313, in start
+    interfaces=options.interfaces)
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 774, in __init__
+    handle_signals=False,
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 686, in __init__
+    i, queue_size, self.active_queue) for i in self.interfaces]
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 519, in __init__
+    listener.listen(queue_size)
+  File "/usr/lib/python2.7/socket.py", line 228, in meth
+    return getattr(self._sock,name)(*args)
+socket.error: [Errno 98] Address already in use
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+
+please visit:
+	https://127.0.0.1:443/
+use "kill -SIGTERM 8867" to shutdown the web2py server
+
+
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+2018-09-06 17:17:37,828 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+
+please visit:
+	https://127.0.0.1:443/
+use "kill -SIGTERM 25342" to shutdown the web2py server
+
+
+no display found. Using non-interactive Agg backend
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+
+please visit:
+	https://127.0.0.1:443/
+use "kill -SIGTERM 24920" to shutdown the web2py server
+
+
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+
+please visit:
+	https://127.0.0.1:443/
+use "kill -SIGTERM 28880" to shutdown the web2py server
+
+
+2018-09-07 18:17:52,571 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:53,092 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:53,302 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:53,510 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:53,913 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:54,014 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:54,119 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:54,224 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:54,334 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:54,443 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:54,552 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:54,663 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:54,768 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:54,876 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:54,985 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:55,090 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:55,191 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:55,301 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:55,405 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:55,514 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:55,618 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:55,723 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:55,833 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:55,938 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:56,043 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:56,147 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:56,258 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:56,360 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:56,462 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:56,570 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:56,674 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:56,776 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:56,884 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:56,988 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:57,092 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-07 18:17:57,202 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-08 08:37:19,734 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+2018-09-10 11:49:14,572 - Rocket.Errors.Thread-7 - ERROR - Traceback (most recent call last):
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1838, in run_app
+    output = self.app(environ, self.start_response)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 653, in app_with_logging
+    ret[0] = wsgiapp(environ, responder2)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 564, in wsgibase
+    return wsgibase(new_environ, responder)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 534, in wsgibase
+    if request.body:
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/globals.py", line 281, in body
+    raise HTTP(400, "Bad Request - HTTP body is incomplete")
+
+HTTP: 400 BAD REQUEST
+
+2018-09-10 11:49:42,566 - Rocket.Errors.Thread-5 - ERROR - Traceback (most recent call last):
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1838, in run_app
+    output = self.app(environ, self.start_response)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 653, in app_with_logging
+    ret[0] = wsgiapp(environ, responder2)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 564, in wsgibase
+    return wsgibase(new_environ, responder)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 534, in wsgibase
+    if request.body:
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/globals.py", line 281, in body
+    raise HTTP(400, "Bad Request - HTTP body is incomplete")
+
+HTTP: 400 BAD REQUEST
+
+2018-09-10 11:53:50,893 - Rocket.Errors.Thread-5 - ERROR - Traceback (most recent call last):
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1838, in run_app
+    output = self.app(environ, self.start_response)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 653, in app_with_logging
+    ret[0] = wsgiapp(environ, responder2)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 564, in wsgibase
+    return wsgibase(new_environ, responder)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 534, in wsgibase
+    if request.body:
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/globals.py", line 281, in body
+    raise HTTP(400, "Bad Request - HTTP body is incomplete")
+
+HTTP: 400 BAD REQUEST
+
+2018-09-10 11:56:28,320 - Rocket.Errors.Thread-7 - ERROR - Traceback (most recent call last):
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1838, in run_app
+    output = self.app(environ, self.start_response)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 653, in app_with_logging
+    ret[0] = wsgiapp(environ, responder2)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 564, in wsgibase
+    return wsgibase(new_environ, responder)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 534, in wsgibase
+    if request.body:
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/globals.py", line 281, in body
+    raise HTTP(400, "Bad Request - HTTP body is incomplete")
+
+HTTP: 400 BAD REQUEST
+
+2018-09-10 12:08:47,574 - Rocket.Errors.Thread-5 - ERROR - Traceback (most recent call last):
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1838, in run_app
+    output = self.app(environ, self.start_response)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 653, in app_with_logging
+    ret[0] = wsgiapp(environ, responder2)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 564, in wsgibase
+    return wsgibase(new_environ, responder)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 534, in wsgibase
+    if request.body:
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/globals.py", line 281, in body
+    raise HTTP(400, "Bad Request - HTTP body is incomplete")
+
+HTTP: 400 BAD REQUEST
+
+2018-09-10 12:10:05,202 - Rocket.Errors.Thread-5 - ERROR - Traceback (most recent call last):
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1838, in run_app
+    output = self.app(environ, self.start_response)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 653, in app_with_logging
+    ret[0] = wsgiapp(environ, responder2)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 564, in wsgibase
+    return wsgibase(new_environ, responder)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 534, in wsgibase
+    if request.body:
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/globals.py", line 281, in body
+    raise HTTP(400, "Bad Request - HTTP body is incomplete")
+
+HTTP: 400 BAD REQUEST
+
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+
+please visit:
+	https://127.0.0.1:443/
+use "kill -SIGTERM 12782" to shutdown the web2py server
+
+
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+<div id="slider"></div>
+no display found. Using non-interactive Agg backend
+<div id="slider"></div>
+no display found. Using non-interactive Agg backend
+<div id="slider"></div>
+no display found. Using non-interactive Agg backend
+<div id="slider"></div>
+2018-09-10 14:14:52,570 - Rocket.Errors.Thread-2 - ERROR - Traceback (most recent call last):
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1838, in run_app
+    output = self.app(environ, self.start_response)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 653, in app_with_logging
+    ret[0] = wsgiapp(environ, responder2)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 564, in wsgibase
+    return wsgibase(new_environ, responder)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 534, in wsgibase
+    if request.body:
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/globals.py", line 281, in body
+    raise HTTP(400, "Bad Request - HTTP body is incomplete")
+
+HTTP: 400 BAD REQUEST
+
+no display found. Using non-interactive Agg backend
+<div id="slider"></div>
+no display found. Using non-interactive Agg backend
+<div id="slider"></div>
+no display found. Using non-interactive Agg backend
+<div id="slider"></div>
+no display found. Using non-interactive Agg backend
+<div id="slider"></div>
+no display found. Using non-interactive Agg backend
+<div id="slider"></div>
+no display found. Using non-interactive Agg backend
+<div id="slider"></div>
+no display found. Using non-interactive Agg backend
+<div id="slider"></div>
+no display found. Using non-interactive Agg backend
+<div id="slider"></div>
+no display found. Using non-interactive Agg backend
+<div id="slider"></div>
+no display found. Using non-interactive Agg backend
+<div id="slider"></div>
+no display found. Using non-interactive Agg backend
+<div id="slider"></div>
+no display found. Using non-interactive Agg backend
+<div id="slider"></div>
+no display found. Using non-interactive Agg backend
+<div id="slider"></div>
+no display found. Using non-interactive Agg backend
+<div id="slider"></div>
+no display found. Using non-interactive Agg backend
+<div id="slider"></div>
+no display found. Using non-interactive Agg backend
+<div id="slider"></div>
+no display found. Using non-interactive Agg backend
+<div id="slider"></div>
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+2018-09-10 16:41:08,805 - Rocket.Errors.Thread-6 - ERROR - Traceback (most recent call last):
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1838, in run_app
+    output = self.app(environ, self.start_response)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 653, in app_with_logging
+    ret[0] = wsgiapp(environ, responder2)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 564, in wsgibase
+    return wsgibase(new_environ, responder)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 534, in wsgibase
+    if request.body:
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/globals.py", line 281, in body
+    raise HTTP(400, "Bad Request - HTTP body is incomplete")
+
+HTTP: 400 BAD REQUEST
+
+no display found. Using non-interactive Agg backend
+2018-09-10 16:50:37,233 - Rocket.Errors.Thread-2 - ERROR - Traceback (most recent call last):
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1838, in run_app
+    output = self.app(environ, self.start_response)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 653, in app_with_logging
+    ret[0] = wsgiapp(environ, responder2)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 564, in wsgibase
+    return wsgibase(new_environ, responder)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 534, in wsgibase
+    if request.body:
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/globals.py", line 281, in body
+    raise HTTP(400, "Bad Request - HTTP body is incomplete")
+
+HTTP: 400 BAD REQUEST
+
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+2018-09-10 17:01:36,367 - Rocket.Errors.Thread-8 - ERROR - Traceback (most recent call last):
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1838, in run_app
+    output = self.app(environ, self.start_response)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 653, in app_with_logging
+    ret[0] = wsgiapp(environ, responder2)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 564, in wsgibase
+    return wsgibase(new_environ, responder)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 534, in wsgibase
+    if request.body:
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/globals.py", line 281, in body
+    raise HTTP(400, "Bad Request - HTTP body is incomplete")
+
+HTTP: 400 BAD REQUEST
+
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+2018-09-10 17:09:01,983 - Rocket.Errors.Thread-9 - ERROR - Traceback (most recent call last):
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1838, in run_app
+    output = self.app(environ, self.start_response)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 653, in app_with_logging
+    ret[0] = wsgiapp(environ, responder2)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 564, in wsgibase
+    return wsgibase(new_environ, responder)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 534, in wsgibase
+    if request.body:
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/globals.py", line 281, in body
+    raise HTTP(400, "Bad Request - HTTP body is incomplete")
+
+HTTP: 400 BAD REQUEST
+
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+2018-09-10 17:10:06,664 - Rocket.Errors.Thread-4 - ERROR - Traceback (most recent call last):
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1838, in run_app
+    output = self.app(environ, self.start_response)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 653, in app_with_logging
+    ret[0] = wsgiapp(environ, responder2)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 564, in wsgibase
+    return wsgibase(new_environ, responder)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 534, in wsgibase
+    if request.body:
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/globals.py", line 281, in body
+    raise HTTP(400, "Bad Request - HTTP body is incomplete")
+
+HTTP: 400 BAD REQUEST
+
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+2018-09-10 17:11:51,432 - Rocket.Errors.Thread-3 - ERROR - Traceback (most recent call last):
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1838, in run_app
+    output = self.app(environ, self.start_response)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 653, in app_with_logging
+    ret[0] = wsgiapp(environ, responder2)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 564, in wsgibase
+    return wsgibase(new_environ, responder)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 534, in wsgibase
+    if request.body:
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/globals.py", line 281, in body
+    raise HTTP(400, "Bad Request - HTTP body is incomplete")
+
+HTTP: 400 BAD REQUEST
+
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+2018-09-10 17:14:07,044 - Rocket.Errors.Thread-6 - ERROR - Traceback (most recent call last):
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1838, in run_app
+    output = self.app(environ, self.start_response)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 653, in app_with_logging
+    ret[0] = wsgiapp(environ, responder2)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 564, in wsgibase
+    return wsgibase(new_environ, responder)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 534, in wsgibase
+    if request.body:
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/globals.py", line 281, in body
+    raise HTTP(400, "Bad Request - HTTP body is incomplete")
+
+HTTP: 400 BAD REQUEST
+
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+2018-09-10 17:15:52,475 - Rocket.Errors.Thread-10 - ERROR - Traceback (most recent call last):
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1838, in run_app
+    output = self.app(environ, self.start_response)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 653, in app_with_logging
+    ret[0] = wsgiapp(environ, responder2)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 564, in wsgibase
+    return wsgibase(new_environ, responder)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 534, in wsgibase
+    if request.body:
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/globals.py", line 281, in body
+    raise HTTP(400, "Bad Request - HTTP body is incomplete")
+
+HTTP: 400 BAD REQUEST
+
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+2018-09-10 17:16:30,082 - Rocket.Errors.Thread-6 - ERROR - Traceback (most recent call last):
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1337, in run
+    self.run_app(conn)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 1838, in run_app
+    output = self.app(environ, self.start_response)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 653, in app_with_logging
+    ret[0] = wsgiapp(environ, responder2)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 564, in wsgibase
+    return wsgibase(new_environ, responder)
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 534, in wsgibase
+    if request.body:
+
+  File "/home/phan/sources/othsec-web/web2py/gluon/globals.py", line 281, in body
+    raise HTTP(400, "Bad Request - HTTP body is incomplete")
+
+HTTP: 400 BAD REQUEST
+
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+AddTrusteeIPInDB(): for ID = 185133
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+AddTrusteeIPInDB(): for ID = 184047
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no displweb2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+
+please visit:
+	https://127.0.0.1:443/
+use "kill -SIGTERM 16853" to shutdown the web2py server
+
+
+/home/phan/sources/othsec-web/web2py/applications/TrackR/controllers/trackrctrl.py:462: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples, ), for example using ravel().
+  knn.fit(X_train, y_train)
+/home/phan/sources/othsec-web/web2py/applications/TrackR/controllers/trackrctrl.py:462: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples, ), for example using ravel().
+  knn.fit(X_train, y_train)
+/home/phan/.local/lib/python2.7/site-packages/sklearn/cross_validation.py:41: DeprecationWarning: This module was deprecated in version 0.18 in favor of the model_selection module into which all the refactored classes and functions are moved. Also note that the interface of the new CV iterators are different from that of this module. This module will be removed in 0.20.
+  "This module will be removed in 0.20.", DeprecationWarning)
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+
+please visit:
+	https://127.0.0.1:443/
+use "kill -SIGTERM 18326" to shutdown the web2py server
+
+
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+Précision du Classifier K-NN sur le training set: 1.00
+no display found. Using non-interactive Agg backend
+Précision du Classifier K-NN sur le training set: 1.00
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+Précision du Classifier K-NN sur le training set: 1.00
+no display found. Using non-interactive Agg backend
+Précision du Classifier K-NN sur le training set: 1.00
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+Précision du Classifier K-NN sur le training set: 1.00
+no display found. Using non-interactive Agg backend
+Précision du Classifier K-NN sur le training set: 1.00
+no display found. Using non-interactive Agg backend
+Précision du Classifier K-NN sur le training set: 1.00
+no display found. Using non-interactive Agg backend
+Précision du Classifier K-NN sur le training set: 1.00
+0.948198198198
+2018-09-13 06:08:31,215 - Rocket.Errors.Thread-6 - ERROR - Tried to send "400 Bad Request" to client but received socket error
+2018-09-13 06:08:37,330 - Rocket.Errors.Thread-8 - ERROR - Tried to send "400 Bad Request" to client but received socket error
+[Errno 107] Noeud final de transport n'est pas connecté
+2018-09-13 06:08:38,722 - Rocket.Errors.Thread-11 - ERROR - Tried to send "400 Bad Request" to client but received socket error
+2018-09-13 06:08:39,753 - Rocket.Errors.Thread-10 - ERROR - Tried to send "400 Bad Request" to client but received socket error
+2018-09-13 06:08:40,661 - Rocket.Errors.Thread-9 - ERROR - Tried to send "400 Bad Request" to client but received socket error
+2018-09-13 12:03:05,471 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+no password, no admin interface
+
+please visit:
+	https://127.0.0.1:443/
+use "kill -SIGTERM 17384" to shutdown the web2py server
+
+
+/home/phan/.local/lib/python2.7/site-packages/sklearn/cross_validation.py:41: DeprecationWarning: This module was deprecated in version 0.18 in favor of the model_selection module into which all the refactored classes and functions are moved. Also note that the interface of the new CV iterators are different from that of this module. This module will be removed in 0.20.
+  "This module will be removed in 0.20.", DeprecationWarning)
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+
+please visit:
+	https://127.0.0.1:443/
+use "kill -SIGTERM 20325" to shutdown the web2py server
+
+
+/home/phan/.local/lib/python2.7/site-packages/sklearn/cross_validation.py:41: DeprecationWarning: This module was deprecated in version 0.18 in favor of the model_selection module into which all the refactored classes and functions are moved. Also note that the interface of the new CV iterators are different from that of this module. This module will be removed in 0.20.
+  "This module will be removed in 0.20.", DeprecationWarning)
+/home/phan/.local/lib/python2.7/site-packages/sklearn/cross_validation.py:41: DeprecationWarning: This module was deprecated in version 0.18 in favor of the model_selection module into which all the refactored classes and functions are moved. Also note that the interface of the new CV iterators are different from that of this module. This module will be removed in 0.20.
+  "This module will be removed in 0.20.", DeprecationWarning)
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+
+please visit:
+	https://127.0.0.1:443/
+use "kill -SIGTERM 31179" to shutdown the web2py server
+
+
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+no display found. Using non-interactive Agg backend
+2018-09-15 06:59:28,404 - Rocket.Errors.Port443 - ERROR - Traceback (most recent call last):
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 590, in listen
+    sock = self.wrap_socket(sock)
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 542, in wrap_socket
+    ssl_version=ssl.PROTOCOL_SSLv23)
+  File "/usr/lib/python2.7/ssl.py", line 933, in wrap_socket
+    ciphers=ciphers)
+  File "/usr/lib/python2.7/ssl.py", line 601, in __init__
+    self.do_handshake()
+  File "/usr/lib/python2.7/ssl.py", line 830, in do_handshake
+    self._sslobj.do_handshake()
+error: [Errno 104] Connexion ré-initialisée par le correspondant
+
+/home/phan/sources/othsec-web/web2py/applications/TrackR/controllers/trackrctrl.py:490: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples, ), for example using ravel().
+  knn.fit(X_train, y_train)
+/home/phan/sources/othsec-web/web2py/applications/TrackR/controllers/trackrctrl.py:490: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples, ), for example using ravel().
+  knn.fit(X_train, y_train)
+/home/phan/sources/othsec-web/web2py/applications/TrackR/controllers/trackrctrl.py:489: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples, ), for example using ravel().
+  knn.fit(X_train, y_train)
+/home/phan/sources/othsec-web/web2py/applications/TrackR/controllers/trackrctrl.py:489: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples, ), for example using ravel().
+  knn.fit(X_train, y_train)
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+
+please visit:
+	https://127.0.0.1:443/
+use "kill -SIGTERM 11542" to shutdown the web2py server
+
+
+2018-09-20 09:46:22,557 - Rocket.Errors.Port443 - ERROR - Socket 0.0.0.0:443 in use by other process and it won't share.
+2018-09-20 09:46:22,563 - Rocket.Errors.Port443 - WARNING - Listener started when not ready.
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+
+please visit:
+	https://127.0.0.1:443/
+use "kill -SIGTERM 21793" to shutdown the web2py server
+
+
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+
+please visit:
+	https://127.0.0.1:443/
+use "kill -SIGTERM 11661" to shutdown the web2py server
+
+
+Traceback (most recent call last):
+  File "web2py.py", line 32, in <module>
+    gluon.widget.start(cron=True)
+  File "/home/phan/sources/othsec-web/web2py/gluon/widget.py", line 1313, in start
+    interfaces=options.interfaces)
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 774, in __init__
+    handle_signals=False,
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 686, in __init__
+    i, queue_size, self.active_queue) for i in self.interfaces]
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 519, in __init__
+    listener.listen(queue_size)
+  File "/usr/lib/python2.7/socket.py", line 228, in meth
+    return getattr(self._sock,name)(*args)
+socket.error: [Errno 98] Address already in use
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+
+please visit:
+	https://127.0.0.1:443/
+use "kill -SIGTERM 12141" to shutdown the web2py server
+
+
+Traceback (most recent call last):
+  File "web2py.py", line 32, in <module>
+    gluon.widget.start(cron=True)
+  File "/home/phan/sources/othsec-web/web2py/gluon/widget.py", line 1313, in start
+    interfaces=options.interfaces)
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 774, in __init__
+    handle_signals=False,
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 686, in __init__
+    i, queue_size, self.active_queue) for i in self.interfaces]
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 519, in __init__
+    listener.listen(queue_size)
+  File "/usr/lib/python2.7/socket.py", line 228, in meth
+    return getattr(self._sock,name)(*args)
+socket.error: [Errno 98] Address already in use
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+
+please visit:
+	https://127.0.0.1:443/
+use "kill -SIGTERM 12610" to shutdown the web2py server
+
+
+Traceback (most recent call last):
+  File "web2py.py", line 32, in <module>
+    gluon.widget.start(cron=True)
+  File "/home/phan/sources/othsec-web/web2py/gluon/widget.py", line 1313, in start
+    interfaces=options.interfaces)
+  File "/home/phan/sources/othsec-web/web2py/gluon/main.py", line 774, in __init__
+    handle_signals=False,
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 686, in __init__
+    i, queue_size, self.active_queue) for i in self.interfaces]
+  File "/home/phan/sources/othsec-web/web2py/gluon/rocket.py", line 519, in __init__
+    listener.listen(queue_size)
+  File "/usr/lib/python2.7/socket.py", line 228, in meth
+    return getattr(self._sock,name)(*args)
+socket.error: [Errno 98] Address already in use
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+Traceback (most recent call last):
+  File "web2py.py", line 32, in <module>
+    gluon.widget.start(cron=True)
+  File "/home/phan/sources/othsec-web/web2py/gluon/widget.py", line 1237, in start
+    options.password = getpass.getpass('choose a password:')
+  File "/usr/lib/python2.7/getpass.py", line 71, in unix_getpass
+    passwd = _raw_input(prompt, stream, input=input)
+  File "/usr/lib/python2.7/getpass.py", line 133, in _raw_input
+    line = input.readline()
+KeyboardInterrupt
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+Traceback (most recent call last):
+  File "web2py.py", line 32, in <module>
+    gluon.widget.start(cron=True)
+  File "/home/phan/sources/othsec-web/web2py/gluon/widget.py", line 1237, in start
+    options.password = getpass.getpass('choose a password:')
+  File "/usr/lib/python2.7/getpass.py", line 71, in unix_getpass
+    passwd = _raw_input(prompt, stream, input=input)
+  File "/usr/lib/python2.7/getpass.py", line 133, in _raw_input
+    line = input.readline()
+KeyboardInterrupt
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+
+please visit:
+	https://127.0.0.1:443/
+use "kill -SIGTERM 14761" to shutdown the web2py server
+
+
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+
+please visit:
+	https://127.0.0.1:443/
+use "kill -SIGTERM 29045" to shutdown the web2py server
+
+
+2018-09-20 15:53:29,295 - Rocket.Errors.Port443 - ERROR - Socket 0.0.0.0:443 in use by other process and it won't share.
+2018-09-20 15:53:29,302 - Rocket.Errors.Port443 - WARNING - Listener started when not ready.
+web2py Web Framework
+Created by Massimo Di Pierro, Copyright 2007-2018
+Version 2.14.6-stable+timestamp.2016.05.10.00.21.47
+Database drivers available: psycopg2, pymysql, imaplib, MySQLdb, sqlite3, pg8000
+
+please visit:
+	https://127.0.0.1:443/
+use "kill -SIGTERM 29236" to shutdown the web2py server
+
+
+2018-09-20 15:54:22,107 - Rocket.Errors.Port443 - ERROR - Socket 0.0.0.0:443 in use by other process and it won't share.
+2018-09-20 15:54:22,113 - Rocket.Errors.Port443 - WARNING - Listener started when not ready.
+/home/phan/.local/lib/python2.7/site-packages/sklearn/cross_validation.py:41: DeprecationWarning: This module was deprecated in version 0.18 in favor of the model_selection module into which all the refactored classes and functions are moved. Also note that the interface of the new CV iterators are different from that of this module. This module will be removed in 0.20.
+  "This module will be removed in 0.20.", DeprecationWarning)

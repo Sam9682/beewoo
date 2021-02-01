@@ -1,0 +1,44 @@
+{{extend 'layout.html'}}
+<script src="http://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCkmDp5cxkybaMIT-XLhjKZPFXEkoIF7Wc"></script>
+
+<h1>List of IP in logs file</h1>
+<div id="map-canvas" style="height:600px;width:1000px"></div>
+
+<table align="center" border>
+    <tr>
+            <th>@IP localisée</th>
+            <th>Nombre d'accès</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+    </tr>
+{{for akey in ip_collection.keys():}}
+    <tr align="center">
+            <TD>{{=akey}}</TD>
+            <TD>{{=len(ip_collection[akey])-1}}</TD>
+            <TD>{{=ip_collection[akey][0][1]}}</TD>
+            <TD>{{=ip_collection[akey][0][0]}}</TD>
+    </tr>
+{{pass}}
+</table>
+
+<script type="text/javascript">
+var map;
+var mapOptions;
+var myLatlng;
+var marker;
+
+function initialize()
+{
+    myLatLng = new google.maps.LatLng(48.856614, 2.3522219);
+    mapOptions = { zoom: 2, minZoom: 2, center: myLatLng };
+
+    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    {{for akey in ip_collection.keys():}}
+    {{if (float(ip_collection[akey][0][0]) != 0) | (float(ip_collection[akey][0][0]) != 0):}}
+      marker = new google.maps.Marker({ position: new google.maps.LatLng( {{=ip_collection[akey][0][1]}} , {{=ip_collection[akey][0][0]}} ), map:map, title:"{{=akey}}" });
+    {{pass}}
+    {{pass}}
+};
+
+google.maps.event.addDomListener(window, 'load', initialize());
+</script>

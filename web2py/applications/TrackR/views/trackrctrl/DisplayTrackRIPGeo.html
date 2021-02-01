@@ -1,0 +1,54 @@
+{{extend 'layout.html'}}
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCkmDp5cxkybaMIT-XLhjKZPFXEkoIF7Wc"></script>
+{{import os}}
+
+{{=form}}
+
+{{
+if (request.vars['Enter_IP_Address'] is not None):
+    an_IP = request.vars['Enter_IP_Address']
+elif (form.vars['Enter_IP_Address'] is not None) or (form.vars['Enter_IP_Address'] != ''):
+    an_IP = form.vars['Enter_IP_Address']
+else:
+    an_IP = ''
+}}
+    <h1>Entrez une adresse IP valide à geolocaliser !</h1>
+{{pass}}
+
+{{if (an_IP is not None) and (an_IP != ''): }}
+    <div id="map-canvas" style="height:600px;width:1000px"></div>
+    {{
+    try:
+        AnalyzeIP(an_IP)
+    except IOError:}}
+        <p>ERROR while trying to process IO '{{=an_IP}}'</p>
+    {{pass}}
+
+    <script type="text/javascript">
+    var map;
+    var mapOptions;
+    var myLatlng;
+    var marker;
+    function initialize()
+    {
+
+    mapOptions = { zoom: 8, minZoom: 2 };
+
+    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+    {{
+    for akey in ip_collection.keys():
+        if (float(ip_collection[akey][0][1]) != 0) | (float(ip_collection[akey][0][0]) != 0):}}
+            myLatLng = new google.maps.LatLng( {{=ip_collection[akey][0][1]}} , {{=ip_collection[akey][0][0]}});
+            marker = new google.maps.Marker({ position: myLatLng , map:map, title:"{{=akey}}" });
+        myLatLng = marker.getPosition();
+        map.setCenter(myLatLng);
+        {{pass
+    pass}}
+    };
+    </script>
+
+    <p>IP found inDB:{{=an_IP}}</p>
+    <script>google.maps.event.addDomListener(window, 'load', initialize());</script>
+
+{{pass}}

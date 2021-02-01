@@ -1,0 +1,185 @@
+{{extend 'layout.html'}}
+
+<html>
+    <head>
+        {{response.files.insert(0,URL('static','js/xterm.css',scheme='https'))}}
+        {{response.files.insert(1,URL('static','js/xterm.js',scheme='https'))}}
+        {{response.files.insert(2,URL('static','js/jquery.js',scheme='https'))}}
+        {{response.files.insert(3,URL('static','css/calendar.css',scheme='https'))}}
+        {{response.files.insert(4,URL('static','js/calendar.js',scheme='https'))}}
+        {{response.files.insert(5,URL('static','js/web2py.js',scheme='https'))}}
+        {{response.files.insert(6,URL('static','js/nearley.js',scheme='https'))}}
+        {{response.files.insert(7,URL('static','js/grammar.js',scheme='https'))}}
+        {{response.include_meta()}}
+        {{response.include_files()}}
+
+        <script>
+            var term = new Terminal( { cursorBlink: true, cols: 200, rows: 80 } );
+            term.open(document.getElementById('#terminal'),true);
+
+            // Create a Parser object from our grammar.
+            //parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
+        </script>
+    </head>
+    <body>
+
+
+        <div id="terminal"></div>
+        <input type="text" id="aTrace" name="aTrace" style="display:none"/>
+        <input type="text" id="aUsername" name="aUsername" style="display:none"/>
+        <input type="text" id="target" name="target" style="display:none"/>
+
+        <script>
+            (function()
+            {
+                var httpsEnabled = window.location.protocol === "https:",
+                    url_localhost = (httpsEnabled ? 'wss://localhost:20508/sniffer' : 'ws://localhost:20508/sniffer'),
+                    authToken = (typeof tty_auth_token !== 'undefined') ? tty_auth_token : null,
+                    protocols = ["tty"], autoReconnect = -1, pingTimer, wsError,
+                    url_server = (httpsEnabled ? 'wss://www.beewoo.fr:8888' : 'ws://www.beewoo:8888');
+
+                term.write('Trying to connect to OTHSEC ' + url_localhost + 'snifer on this local PC ...\n\r');
+
+                var openWs = function()
+                {
+
+                    var ws = new WebSocket(url_localhost, protocols),
+                        textDecoder = new TextDecoder(),
+                        textEncoder = new TextEncoder();
+
+                    var unloadCallback = function(event)
+                    {
+                        var message = 'Close terminal? this will also terminate the command.';
+                        (event || window.event).returnValue = message;
+
+                        return message;
+                    };
+
+                    var sendMessage = function (msg)
+                    {
+                        if (ws.readyState === WebSocket.OPEN)
+                        {
+                            ws.send(textEncoder.encode(msg));
+                        }
+                    };
+
+                    var sendPing = function()
+                    {
+                        sendMessage("1");
+                    };
+
+                    ws.binaryType = 'arraybuffer';
+
+                    ws.onopen = function()
+                    {
+                        var terminalContainer = document.getElementById('#terminal');
+                        wsError = false;
+                        sendMessage(JSON.stringify({AuthToken: authToken}));
+                        pingTimer = setInterval(sendPing, 30 * 1000);
+
+                        term.write('Websocket connection opened !\n\r');
+                        console.log("Websocket connection opened !");
+
+                        term.on('resize', function(size)
+                        {
+                            sendMessage("2" + JSON.stringify({columns: size.cols, rows: size.rows}));
+                            setTimeout(function()
+                            {
+                                term.showOverlay(size.cols + 'x' + size.rows);
+                            }, 500);
+                        });
+
+                        term.on("data", function(data)
+                        {
+                            sendMessage("0" + data);
+                        });
+
+                        term.on('open', function()
+                        {
+                            // https://stackoverflow.com/a/27923937/1727928
+                            window.addEventListener('resize', function()
+                            {
+                                clearTimeout(window.resizedFinished);
+                                window.resizedFinished = setTimeout(function ()
+                                {
+                                    term.fit();
+                                }, 250);
+                            });
+                            window.addEventListener('beforeunload', unloadCallback);
+                            term.fit();
+                        });
+
+                        while (terminalContainer.firstChild)
+                        {
+                            terminalContainer.removeChild(terminalContainer.firstChild);
+                        }
+
+                        term.open(terminalContainer, true);
+                    };
+
+                    ws.onmessage = function(event)
+                    {
+                        var cmd = String.fromCharCode(new DataView(event.data).getUint8()),
+                        data = textDecoder.decode(event.data.slice(1));
+                        switch(cmd)
+                        {
+                            case '0':
+                                if ( (data.search("tcpdump") != 0) && ( data.search("listening") != 0))
+                                {
+                                    txt = JSON.stringify(data);
+                                    jQuery('#aTrace').val("");
+                                    jQuery('#aTrace').val(data);
+                                    jQuery('#aUsername').val("");
+                                    jQuery('#aUsername').val("{{=request.vars['UserName']}}");
+                                    //ajax('{{=URL('othsec', 'InsertTraceInDB')}}', ['aTrace','aUsername'], 'target');
+                                    //websocket_send(url_server, data, 'beewoo', "{{=request.vars['UserName']}}")
+                                    term.write(data);
+                               }
+                                break;
+                            case '1': // pong
+                                break;
+                            case '2':
+                                document.title = data;
+                                break;
+                            case '3':
+                                var preferences = JSON.parse(data);
+                                Object.keys(preferences).forEach(function(key) 
+                                {
+                                    console.log("Setting " + key + ": " +  preferences[key]);
+                                    term.setOption(key, preferences[key]);
+                                });
+                                break;
+                            case '4':
+                                autoReconnect = JSON.parse(data);
+                                console.log("Enabling reconnect: " + autoReconnect + " seconds");
+                                break;
+                        }
+                    };
+
+                    ws.onclose = function(event)
+                    {
+                        console.log("Websocket connection closed with code: " + event.code);
+                        if (term)
+                        {
+                            term.off('data');
+                            term.off('resize');
+                            if (!wsError)
+                            {
+                                term.write("Connection Closed... Please launch OTHSEC on this local PC !!!");
+                            }
+                        }
+                        window.removeEventListener('beforeunload', unloadCallback);
+                        clearInterval(pingTimer);
+                        // 1000: CLOSE_NORMAL
+                        if (event.code !== 1000 && autoReconnect > 0) 
+                        {
+                            setTimeout(openWs, autoReconnect * 1000);
+                        }
+                    };
+                };
+
+                openWs();
+            })();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,185 @@
+{{extend 'layout.html'}}
+{{import os}}
+
+<head>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAA_Gs-eVUJmLAwvWzyypbB9wdnf0WxIAY"></script>
+</head>
+
+<body>
+    <h1>Détection d'anomalies SVM par IP</h1>
+    <p>request = count SYN, RST from OTHSEC group by IP</p>
+    <form>
+        <table>
+            <tr>
+                <td>
+                    Paramètre Nu
+                </td>
+                <td>
+                    <input id="nu_value" name="nu_value"></input>
+                </td>
+                <td>
+                    <div class="slidecontainer" style="width:600px">
+                        <input type="range" min="0" max="1000" value="1000" class="sliderNu" id="sliderNu"></input>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Paramètre Gamma
+                </td>
+                <td>
+                    <input id="gamma_value" name="gamma_value"></input>
+                </td>
+                <td>
+                    <div class="slidecontainer" style="width:600px">
+                        <input type="range" min="0" max="1000" value="0" class="sliderGamma" id="sliderGamma"></input>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Paramètre Kernel
+                </td>
+                <td>
+                    <select name="kernel_value">
+                      <option value="rbf" selected>rbf</option>
+                      <option value="linear">linear</option>
+                      <option value="poly">poly</option>
+                      <option value="sigmoid">sigmoid</option>
+                      <option value="precomputed">precomputed</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+
+        <br>
+        <input type="submit" value="Lancer SVM Machine Learning" enctype="multipart/form-data" action="{{=URL()}}" method="post">
+    </form>
+
+    <script>
+        var sliderNu = document.getElementById("sliderNu");
+        var outputNu = document.getElementById("nu_value");
+        var sliderGamma = document.getElementById("sliderGamma");
+        var outputGamma = document.getElementById("gamma_value");
+
+        var aStep = (0.01 - 0.00001) / 1000;
+        outputNu.value = (0.00001 + (1000 * aStep)).toFixed(8);
+        aStep = (0.01 - 0.000001) / 1000;
+        outputGamma.value = (0.000001 + (0 * aStep)).toFixed(8);
+
+        sliderNu.oninput = function() {
+          aStep = (0.01 - 0.00001) / 1000;
+          outputNu.value = (0.00001 + (this.value * aStep)).toFixed(8);
+        }
+        sliderGamma.oninput = function() {
+          aStep = (0.01 - 0.000001) / 1000;
+          outputGamma.value = (0.000001 + (this.value * aStep)).toFixed(8);
+        }
+    </script>
+
+{{if (nameOfImage is None) or  (nameOfImage == ''): }}
+{{else:}}
+
+    <b>IPANALYZED(nu={{=float(request.vars.nu_value)}}, gamma={{=float(request.vars.gamma_value)}}), kernel={{=request.vars.kernel_value}}<br>Nb traffic IP suspect : {{=len(abnormal)}} sur un total de {{=len(abnormal)+len(normal)}} soit {{=format(float(len(abnormal)/(float(len(abnormal)+len(normal)))*100), '0.2f')}} %<br></b>
+
+    {{=IMG(_src=nameOfImage, _width="800px", _height="600px")}}
+
+    <div id="map-canvas" style="height:600px;width:1000px"></div>
+
+    <script type="text/javascript">
+        (function()
+        {
+            var map;
+            var mapOptions;
+            var myLatlng;
+            var marker;
+            var image;
+            var sizeico = 20;
+            var imageHacked = {
+                    url: "https://maps.google.com/mapfiles/kml/pal3/icon47.png",
+                    scaledSize: new google.maps.Size(sizeico, sizeico),
+                    anchor: new google.maps.Point(sizeico/2, sizeico/2)
+                };
+            var imageNormal = {
+                    url: "http://labs.google.com/ridefinder/images/mm_20_green.png",
+                    size: new google.maps.Size(sizeico, sizeico),
+                    anchor: new google.maps.Point(sizeico/2, sizeico/2)
+                };
+
+            function initialize()
+            {
+                myLatLng = new google.maps.LatLng(48.856614, 2.3522219);
+                mapOptions = { zoom: 2, minZoom: 2, center: myLatLng };
+                map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+            };
+
+            function addMark(lon, lat, IP_addr, syn, rst, IsBanned)
+            {
+                 if ( (lat != 0) || (lon != 0) ) {
+                     if (IsBanned > 0) {
+                         image = imageHacked;
+                     }
+                     else
+                     {
+                         image = imageNormal;
+                     }
+                     var marker = new google.maps.Marker({ position: new google.maps.LatLng( lon, lat), map:map, title: IP_addr + '(' + syn + ',' + rst + ')', icon: image});
+                     jQuery('#list_push').append('<OPTION>'+IP_addr+'</OPTION>');
+                 }
+            };
+
+            function show_result()
+            {
+                document.write("<table><tr align='center'><td>LAT</td><td>LONG</td><td>IP</td><td>LOOKUP</td><td>#SYN</td><td>#RST</td><td>ACTION</td></tr>");
+                {{
+                i = 0
+                for elem in abnormal:
+                    if (float(elem[0]) != 0) & (float(elem[1]) != 0):
+                        }}
+
+                        url_link = "<a href={{=URL('trackrctrl','AddBannedIPInDB', vars=dict({'Enter_LAT':float(elem[0]), 'Enter_LONG':float(elem[1]), 'Enter_SYN':float(elem[2]), 'Enter_RST':float(elem[3])}))}}>Blacklister</a>";
+                        addMark({{=float(elem[0])}} , {{=float(elem[1])}}, "{{=str(table_ip[i])}}", {{=float(elem[2])}} , {{=float(elem[3])}}, true);
+                        document.write("<tr align='right' style='background-color:red'><td>" + {{=float(elem[0])}} + "</td><td>" + {{=float(elem[1])}} + "</td><td>" + "{{=str(table_ip[i])}}" + "</td><td></td><td>" + {{=float(elem[2])}} + "</td><td>" + {{=float(elem[3])}} + "</td><td>" + url_link + "</td></tr>");
+                    {{pass
+                    i = i + 1
+                pass}}
+
+                document.write("---------------------------------------------------------------------------------------------------------<br>");
+                {{for elem in normal:
+                    if (float(elem[0]) != 0) & (float(elem[1]) != 0):
+                        }}
+
+                        if ({{=float(elem[3])}} > 0)
+                        {
+                            var p = {{=float(elem[2])}} / {{=float(elem[3])}}
+                            if (p < 1.2)
+                            {
+                                url_link = "<a href={{=URL('trackrctrl','AddBannedIPInDB', vars=dict({'Enter_LAT':float(elem[0]), 'Enter_LONG':float(elem[1]), 'Enter_SYN':float(elem[2]), 'Enter_RST':float(elem[3])}))}}>Blacklister</a>";
+                                document.write("<tr align='right'  style='background-color:orange>");
+                            }
+                            else
+                            {
+                                url_link = "-";
+                                document.write("<tr align='right'>");
+                            }
+                        }
+                        else
+                        {
+                            url_link = "";
+                            document.write("<tr align='right'>");
+                        }
+                        document.write("<td>" + {{=float(elem[0])}} + "</td><td>" + {{=float(elem[1])}} + "</td><td>" + "{{=str(table_ip[i])}}" + "</td><td></td><td>" + {{=float(elem[2])}} + "</td><td>" + {{=float(elem[3])}} + "</td><td>" + url_link + "</td></tr>");
+                    {{pass
+                    i = i + 1
+                pass}}
+                document.write("</table>");
+            };
+
+            google.maps.event.addDomListener(window, 'load', initialize());
+            show_result();
+        })();
+    </script>
+{{pass}}
+</body>

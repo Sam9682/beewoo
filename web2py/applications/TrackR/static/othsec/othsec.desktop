@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=OTHSEC
+Comment=Launch OTHSEC
+Exec=gnome-terminal -e "sudo /usr/local/bin/othsec"
+Icon=utilities-terminal
+Type=Application

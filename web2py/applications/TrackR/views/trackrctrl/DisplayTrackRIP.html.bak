@@ -1,0 +1,34 @@
+{{extend 'layout.html'}}
+<script src="http://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCkmDp5cxkybaMIT-XLhjKZPFXEkoIF7Wc"></script>
+{{import os}}
+
+{{=form}}
+
+{{if not(form.vars['AddrIP'] is None): }}
+    {{an_IP=form.vars['AddrIP']}}
+    {{try:}}
+        {{AnalyzeIP(an_IP)}}
+    {{except IOError:}}
+        <p>ERROR while trying to read file '{{=filename}}'</p>
+    {{pass}}
+{{else:}}
+    <h1>Please select a valid IP Addr to localize</h1>
+{{pass}}
+
+
+<table align="center" border>
+    <tr>
+            <th>@IP localisée</th>
+            <th>Nombre d'accès</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+    </tr>
+{{for akey in ip_collection.keys():}}
+    <tr align="center">
+            <TD>{{=akey}}</TD>
+            <TD>{{=len(ip_collection[akey])-1}}</TD>
+            <TD>{{=ip_collection[akey][0][1]}}</TD>
+            <TD>{{=ip_collection[akey][0][0]}}</TD>
+    </tr>
+{{pass}}
+</table>

@@ -1,0 +1,253 @@
+# -*- coding: utf-8 -*-
+import logging, logging.handlers
+
+# Assign application logger to a global var
+logger = logging.getLogger("othsec")
+logger.setLevel(logging.DEBUG)
+
+# -------------------------------------------------------------------------
+# This scaffolding model makes your app work on Google App Engine too
+# File is released under public domain and you can use without limitations
+# -------------------------------------------------------------------------
+#logger.debug('Entering db.py file...')
+
+if request.global_settings.web2py_version < "2.14.1":
+    raise HTTP(500, "Requires web2py 2.13.3 or newer")
+
+# -------------------------------------------------------------------------
+# if SSL/HTTPS is properly configured and you want all HTTP requests to
+# be redirected to HTTPS, uncomment the line below:
+# -------------------------------------------------------------------------
+# request.requires_https()
+
+# -------------------------------------------------------------------------
+# app configuration made easy. Look inside private/appconfig.ini
+# -------------------------------------------------------------------------
+from gluon.contrib.appconfig import AppConfig
+
+# -------------------------------------------------------------------------
+# once in production, remove reload=True to gain full speed
+# -------------------------------------------------------------------------
+myconf = AppConfig(reload=True)
+
+if not request.env.web2py_runtime_gae:
+    # ---------------------------------------------------------------------
+    # if NOT running on Google App Engine use SQLite or other DB
+    # ---------------------------------------------------------------------
+    db = DAL(myconf.get('db.uri'),
+             pool_size=myconf.get('db.pool_size'),
+             fake_migrate_all=True,
+             migrate_enabled=myconf.get('db.migrate'),
+             check_reserved=['all'])
+else:
+    # ---------------------------------------------------------------------
+    # connect to Google BigTable (optional 'google:datastore://namespace')
+    # ---------------------------------------------------------------------
+    db = DAL('google:datastore+ndb')
+    # ---------------------------------------------------------------------
+    # store sessions and tickets there
+    # ---------------------------------------------------------------------
+    session.connect(request, response, db=db)
+    # ---------------------------------------------------------------------
+    # or store session in Memcache, Redis, etc.
+    # from gluon.contrib.memdb import MEMDB
+    # from google.appengine.api.memcache import Client
+    # session.connect(request, response, db = MEMDB(Client()))
+    # ---------------------------------------------------------------------
+
+# -------------------------------------------------------------------------
+# by default give a view/generic.extension to all actions from localhost
+# none otherwise. a pattern can be 'controller/function.extension'
+# -------------------------------------------------------------------------
+response.generic_patterns = ['*'] if request.is_local else []
+# -------------------------------------------------------------------------
+# choose a style for forms
+# -------------------------------------------------------------------------
+response.formstyle = myconf.get('forms.formstyle')  # or 'bootstrap3_stacked' or 'bootstrap2' or other
+response.form_label_separator = myconf.get('forms.separator') or ''
+
+# -------------------------------------------------------------------------
+# (optional) optimize handling of static files
+# -------------------------------------------------------------------------
+# response.optimize_css = 'concat,minify,inline'
+# response.optimize_js = 'concat,minify,inline'
+
+# -------------------------------------------------------------------------
+# (optional) static assets folder versioning
+# -------------------------------------------------------------------------
+# response.static_version = '0.0.0'
+
+# -------------------------------------------------------------------------
+# Here is sample code if you need for
+# - email capabilities
+# - authentication (registration, login, logout, ... )
+# - authorization (role based authorization)
+# - services (xml, csv, json, xmlrpc, jsonrpc, amf, rss)
+# - old style crud actions
+# (more options discussed in gluon/tools.py)
+# -------------------------------------------------------------------------
+
+from gluon.tools import Auth, Service, PluginManager
+
+# host names must be a list of allowed host names (glob syntax allowed)
+auth = Auth(db, host_names=myconf.get('host.names'))
+service = Service()
+plugins = PluginManager()
+
+# -------------------------------------------------------------------------
+# create all tables needed by auth if not custom tables
+# -------------------------------------------------------------------------
+auth.define_tables(username=False, signature=False)
+
+# -------------------------------------------------------------------------
+# configure email
+# -------------------------------------------------------------------------
+mail = auth.settings.mailer
+mail.settings.server = 'logging' if request.is_local else myconf.get('smtp.server')
+mail.settings.sender = myconf.get('smtp.sender')
+mail.settings.login = myconf.get('smtp.login')
+mail.settings.tls = myconf.get('smtp.tls') or False
+mail.settings.ssl = myconf.get('smtp.ssl') or False
+
+# -------------------------------------------------------------------------
+# configure auth policy
+# -------------------------------------------------------------------------
+auth.settings.registration_requires_verification = False
+auth.settings.registration_requires_approval = False
+auth.settings.reset_password_requires_verification = True
+
+# -------------------------------------------------------------------------
+# Define your tables below (or better in another model file) for example
+#
+# >>> db.define_table('mytable', Field('myfield', 'string'))
+#
+# Fields can be 'string','text','password','integer','double','boolean'
+#       'date','time','datetime','blob','upload', 'reference TABLENAME'
+# There is an implicit 'id integer autoincrement' field
+# Consult manual for more options, validators, etc.
+#
+# More API examples for controllers:
+#
+# >>> db.mytable.insert(myfield='value')
+# >>> rows = db(db.mytable.myfield == 'value').select(db.mytable.ALL)
+# >>> for row in rows: print row.id, row.myfield
+# -------------------------------------------------------------------------
+db.define_table('ipligence2',
+  Field('ip_from', 'integer',10,'0000000000'),
+  Field('ip_to', 'integer',10,'0000000000'),
+  Field('country_code', 'string',10),
+  Field('country_name', 'string',255),
+  Field('continent_code', 'string',10),
+  Field('continent_name', 'string',255),
+  Field('time_zone', 'string',10),
+  Field('region_code', 'string',10),
+  Field('region_name', 'string',255),
+  Field('the_owner', 'string',255),
+  Field('city_name', 'string',255),
+  Field('county_name', 'string',255),
+  Field('latitude', 'double'),
+  Field('longitude', 'double'))
+
+db.define_table('othsec',
+  Field('idn', 'string',20,''),
+  Field('username', 'string',30,''),
+  Field('protocol', 'string',8,'IP'),
+  Field('datetime_remote', 'datetime'),                              # datetime
+  Field('datetime_othsec', 'datetime'),
+  Field('addr_from', 'string',40,'aa.aa.aa.aa'),                     # Source IP
+  Field('addr_to', 'string',40,'bb.bb.bb.bb'),                       # Destination IP
+  Field('port_from', 'string',10,'0000'),                            # Source Port
+  Field('port_to', 'string',10,'0000'),                              # Destination Port
+  Field('eth_mac_from', 'string',12,''),
+  Field('eth_mac_to', 'string',12,''),
+  Field('iph_version', 'integer',0),                                 # IP Version
+  Field('iph_iphdrlen', 'integer',0),                                # IP Header Length
+  Field('iph_tos', 'integer',0),                                     # Type Of Service
+  Field('iph_tot_len', 'integer',0),                                 # IP Total Length
+  Field('iph_id', 'integer',0),                                      # Identification
+  Field('iph_ttl', 'integer',0),                                     # TTL
+  Field('iph_protocol', 'integer',0),                                # Protocol
+  Field('iph_check', 'integer',0),                                   # Checksum
+  Field('ip6_vfc', 'integer',0),                                     # VFC
+  Field('ip6_flow', 'integer',0),                                    # Flow
+  Field('ip6_plen', 'integer',0),                                    # Length
+  Field('ip6_nxt', 'integer',0),                                     # Next Header
+  Field('ip6_hlim', 'integer',0),                                    # Limit
+  Field('ip6_hops', 'integer',0),                                    # Hops
+  Field('tcph_seq', 'integer',0),                                    # Sequence Number
+  Field('tcph_ack_seq', 'integer',0),                                # Acknowledge Number
+  Field('tcph_doff', 'integer',0),                                   # Header Length
+  Field('tcph_urg', 'boolean',0),                                    # Urgent Flag
+  Field('tcph_ack', 'boolean',0),                                    # Acknowledgement Flag
+  Field('tcph_psh', 'boolean',0),                                    # Push Flag
+  Field('tcph_rst', 'boolean',0),                                    # Reset Flag
+  Field('tcph_syn', 'boolean',0),                                    # Synchronise Flag
+  Field('tcph_fin', 'boolean',0),                                    # Finish Flag
+  Field('tcph_window', 'integer',0),                                 # Window
+  Field('tcph_check', 'integer',0),                                  # Checksum
+  Field('tcph_urg_ptr', 'integer',0),                                # Urgent Pointer
+  Field('body_message', 'string',255))
+
+db.define_table('ipanalyzed',
+  Field('idn', 'string',20,''),
+  Field('username', 'string',30,''),
+  Field('datetime', 'datetime'),
+  Field('ip_version', 'integer',0),
+  Field('tcp_protocol', 'integer',0),
+  Field('ip_addr', 'string',40,'aa.aa.aa.aa'),
+  Field('port', 'string',10,'0000'),
+  Field('mac', 'string',12,''),
+  Field('status', 'string',10),
+  Field('risk', 'integer',0),
+  Field('hits', 'integer',0),
+  Field('longitude', 'double',0),
+  Field('latitude', 'double',0),
+  Field('tcph_rst', 'integer',0),
+  Field('tcph_psh', 'integer',0),
+  Field('tcph_fin', 'integer',0),
+  Field('tcph_ack', 'integer',0),
+  Field('tcph_syn', 'integer',0),
+  Field('tcph_urg', 'integer',0))
+
+db.define_table('loganalyzed',
+  Field('idn', 'string',20,''),
+  Field('username', 'string',30,''),
+  Field('logon', 'string',30,''),
+  Field('datetime', 'datetime'),
+  Field('protocol', 'string',8,'IP'),
+  Field('ip_addr', 'string',40,'aa.aa.aa.aa'),
+  Field('port', 'string',10,'0000'),
+  Field('service', 'string',50,'0000'),
+  Field('status', 'string',10),
+  Field('conn_tries', 'integer',0),
+  Field('auth_failure', 'integer',0),
+  Field('banned', 'integer',0),
+  Field('longitude', 'double',0),
+  Field('latitude', 'double',0))
+
+db.define_table('rtc',Field('access_token'))
+
+db.define_table('params',
+  Field('id', 'string',20,''),
+  Field('username', 'string',30,''),
+  Field('knn_n_neighbors', 'double', 0.01),
+  Field('knn_h', 'double', 0.01),
+  Field('svm_nu', 'double', 0.01),
+  Field('svm_gamma', 'double', 0.01),
+  Field('svm_kernel', 'string', 20, 'rbf'))
+
+
+db.executesql('CREATE INDEX IF NOT EXISTS myidx1 ON othsec (idn);')
+db.executesql('CREATE INDEX IF NOT EXISTS myidx2 ON ipanalyzed (idn);')
+db.executesql('CREATE INDEX IF NOT EXISTS myidx3 ON ipanalyzed (ip_addr);')
+db.executesql('CREATE INDEX IF NOT EXISTS myidx4 ON loganalyzed (idn);')
+db.executesql('CREATE INDEX IF NOT EXISTS myidx5 ON loganalyzed (ip_addr);')
+
+# -------------------------------------------------------------------------
+# after defining tables, uncomment below to enable auditing
+# -------------------------------------------------------------------------
+# auth.enable_record_versioning(db)
+
+mail.settings.server = settings.email_server
+mail.settings.sender = settings.email_sender
+mail.settings.login = settings.email_login

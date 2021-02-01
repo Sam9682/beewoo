@@ -1,0 +1,110 @@
+{{extend 'layout.html'}}
+
+<html>
+    <head>
+    </head>
+    <body>
+
+    <table width="100%" cellpadding="4" cellspacing="0">
+
+    <tr valign="top">
+		<td align="center" width="33%" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0.1cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p style="font-variant: normal; letter-spacing: normal; font-style: normal; text-decoration: none">
+			<font color="#c00000" face="Arial, serif" size="2" style="font-size: 10pt"><b>Utiliser OTHSEC sous Linux</b></font></p>
+		</td>
+		<td align="center" width="33%" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0.1cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p><span style="font-variant: normal"><font color="#c00000"><span style="text-decoration: none"><font face="Arial, serif" size="2" style="font-size: 10pt"><span style="letter-spacing: normal" style="font-style: normal"><b>Utiliser OTHSEC sous WINDOWS</b></span></font></span></font></span></p>
+		</td>
+		<td align="center" width="34%" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0.1cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p><span style="font-variant: normal"><font color="#c00000"><span style="text-decoration: none"><font face="Arial, serif" size="2" style="font-size: 10pt"><span style="letter-spacing: normal" style="font-style: normal"><b>Utiliser OTHSEC sous MacOS</b></span></font></span></font></span></p>
+		</td>
+    </tr>
+    <tr>
+        <td width="33%" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0.1cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+<p align="left" style="margin-bottom: 0cm; font-variant: normal; letter-spacing: normal; font-style: normal; text-decoration: none">
+
+            <p style="font-variant: normal; letter-spacing: normal; font-style: normal; text-decoration: none">
+                <font color="#002060" face="Arial, serif" size="2" style="font-size: 10pt">
+                <ol>
+                    <li style="margin-bottom: 0.2cm; line-height: 100%;">Téléchargez le sniffer sur votre PC : {{=A('OTHSEC LINUX ',_href=URL('static','othsec_ubuntu.18.04-x64.zip'))}}</li>
+                    <li style="margin-bottom: 0.2cm; line-height: 100%;">Excécutez le sniffer en mode sudo (fichier "othsec")</li>
+                    <li style="font-size: 10pt; margin-bottom: 0.2cm; line-height: 100%;">{{=A('Visualisez le traffic depuis la site www.beewoo.fr',_href=URL('othsec', 'DisplayXtermFormSnifferAndGeolocMap', scheme='https', vars=dict(UserName=str(auth.user['email']))))}}</li>
+                </ol>
+                </font>
+            </p>
+		</td>
+        <td width="33%" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0.1cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p style="font-variant: normal; letter-spacing: normal; font-style: normal; text-decoration: none">
+			<font color="#002060" face="Arial, serif" size="2" style="font-size: 10pt">
+                <ol>
+                    <li style="margin-bottom: 0.2cm; line-height: 100%;">Téléchargez le sniffer sur votre PC : {{=A('OTHSEC WINDOWS ',_href=URL('static','othsec_win10-x86.zip'))}}</li>
+                    <li style="margin-bottom: 0.2cm; line-height: 100%;">Excécutez le sniffer en mode Admin (fichier "othsec.exe")</li>
+                    <li style="font-size: 10pt; margin-bottom: 0.2cm; line-height: 100%;">{{=A('Visualisez le traffic depuis la site www.beewoo.fr',_href=URL('othsec', 'DisplayXtermFormSnifferAndGeolocMap', scheme='https', vars=dict(UserName=str(auth.user['email']))))}}</li>
+                </ol>
+			</font></p>
+	   </td>
+       <td width="34%" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0.1cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm">
+			<p style="font-variant: normal; letter-spacing: normal; font-style: normal; text-decoration: none">
+			<font color="#002060" face="Arial, serif" size="2" style="font-size: 10pt">
+                <ol>
+                    <li style="margin-bottom: 0.2cm; line-height: 100%;">Téléchargez le sniffer sur votre PC : {{=A('OTHSEC MACOS ',_href=URL('static','othsec_osx.10.12-x64.zip'))}}</li>
+                    <li style="margin-bottom: 0.2cm; line-height: 100%;">Excécutez le sniffer en mode Admin (fichier "othsec")</li>
+                    <li style="font-size: 10pt; margin-bottom: 0.2cm; line-height: 100%;">{{=A('Visualisez le traffic depuis la site www.beewoo.fr',_href=URL('othsec', 'DisplayXtermFormSnifferAndGeolocMap', scheme='https', vars=dict(UserName=str(auth.user['email']))))}}</li>
+                </ol>
+			</font></p>
+		</td>
+        </tr>
+    <tr>
+        <td width="33%" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000;">
+            <p>
+                {{=IMG(_src=URL('static', 'FichierDotnetCoreUbuntu.PNG'))}}
+                <font color="#002060" face="Arial, serif" size="2" style="font-size: 10pt">
+                <br>
+                    <ul>
+                        <li>Dévéloppé en C sous Linux / Ubuntu</li>
+                        <li>OpenSSL /usr/local/lib/libcrypto.so (version "1.1.1")</li>
+                        <li>libwebsockets >=1.7.0 (version 2.0.3)</li>
+                        <li>json-c (version 0.12.1)</li>
+                    </ul>
+                </font>
+            </p>
+		</td>
+        <td width="33%" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000;">
+            <p>
+            {{=IMG(_src=URL('static', 'FichierDotnetCoreWindows.PNG'))}}
+			<font color="#002060" face="Arial, serif" size="2" style="font-size: 10pt">
+                    <ul>
+                        <li>Dévéloppé en MS VS 2017 DOTNET CORE 2.2</li>
+                        <li>NETCoreApp (version 2.2)</li>
+                        <li>Microsoft.NETCore.App (version 2.0.0)</li>
+                        <li>Microsoft.NETCore.DotNetHostPolicy (version 2.0.0)</li>
+                    </ul>
+			</font>
+            </p>
+		</td>
+        <td align="top" width="34%" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000;">
+			<p>
+            {{=IMG(_src=URL('static', 'FichierDotnetCoreOSX.PNG'))}}
+			<font color="#002060" face="Arial, serif" size="2" style="font-size: 10pt">
+                    <ul>
+                        <li>Dévéloppé en MS VS 2017 DOTNET CORE 2.2</li>
+                        <li>NETCoreApp (version 2.2)</li>
+                        <li>Microsoft.NETCore.App (version 2.0.0)</li>
+                        <li>Microsoft.NETCore.DotNetHostPolicy (version 2.0.0)</li>
+                    </ul>
+			</font>
+            </p>
+		</td>
+      </tr>
+</table>
+
+
+    <p></p>
+    <p>En option :</p>
+    <ul>
+        <li>{{=A('Démarrer la récupération les logs FAIL2BAN de son PC',_href=URL('othsec', 'DisplayXtermFormTail', scheme='https', vars=dict(UserName=str(auth.user['email']))))}}</li>
+
+    </ul>
+</body>
+
+</html>

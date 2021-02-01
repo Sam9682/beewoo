@@ -1,0 +1,422 @@
+{{extend 'layout.html'}}
+
+<html>
+    <head>
+        {{response.files.insert(0,URL('static','js/xterm.css',scheme='https'))}}
+        {{response.files.insert(1,URL('static','js/xterm.js',scheme='https'))}}
+        {{response.files.insert(2,URL('static','js/jquery.js',scheme='https'))}}
+        {{response.files.insert(3,URL('static','css/calendar.css',scheme='https'))}}
+        {{response.files.insert(4,URL('static','js/calendar.js',scheme='https'))}}
+        {{response.files.insert(5,URL('static','js/web2py.js',scheme='https'))}}
+        {{response.files.insert(6,URL('static','js/nearley.js',scheme='https'))}}
+        {{response.files.insert(7,URL('static','js/grammar.js',scheme='https'))}}
+        {{response.include_meta()}}
+        {{response.include_files()}}
+
+        <script>
+            var term = new Terminal( { cursorBlink: true, cols: 180, rows: 39 } );
+            term.open(document.getElementById('#terminal'),true);
+
+            // Create a Parser object from our grammar.
+            //parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
+        </script>
+    </head>
+    <body>
+
+    <LABEL id="aLabelSniff" style="margin.top=10px">Paquets=</LABEL><INPUT id="counterSniff" style="text-align:center; width: 50px; readonly" ></INPUT>
+    <LABEL id="aLabelErr" style="margin.top=10px; display:none">Err=</LABEL><INPUT id="counterErr" style="text-align:center; width: 50px; readonly; display:none" ></INPUT>
+    <LABEL id="aLabelSVR" style="margin.top=10px">IPs=</LABEL><INPUT id="counterSVR" style="text-align:center; width: 50px; readonly" ></INPUT>
+    <LABEL id="aLabelIP4" style="margin.top=10px">IP4=</LABEL><INPUT id="counterIP4" style="text-align:center; width: 50px; readonly" ></INPUT>
+    <LABEL id="aLabelIP6" style="margin.top=10px">IP6=</LABEL><INPUT id="counterIP6" style="text-align:center; width: 50px; readonly" ></INPUT>
+    <LABEL id="aLabelTCP" style="margin.top=10px">TCP=</LABEL><INPUT id="counterTCP" style="text-align:center; width: 50px; readonly" ></INPUT>
+    <LABEL id="aLabelUDP" style="margin.top=10px">UDP=</LABEL><INPUT id="counterUDP" style="text-align:center; width: 50px; readonly" ></INPUT>
+    <LABEL id="aLabelIGMP" style="margin.top=10px">IGMP=</LABEL><INPUT id="counterIGMP" style="text-align:center; width: 50px; readonly" ></INPUT>
+    <LABEL id="aLabelSSCO" style="margin.top=10px">SSCO=</LABEL><INPUT id="counterIGMP" style="text-align:center; width: 50px; readonly" ></INPUT>
+    <LABEL id="aLabelICMP" style="margin.top=10px">ICMP=</LABEL><INPUT id="counterICMP" style="text-align:center; width: 50px; readonly" ></INPUT>
+    <LABEL id="aLabelU" style="margin.top=10px">URG=</LABEL><INPUT id="counterU" style="text-align:center; width: 50px; readonly" ></INPUT>
+    <LABEL id="aLabelU" style="margin.top=10px">ACK=</LABEL><INPUT id="counterA" style="text-align:center; width: 50px; readonly" ></INPUT>
+    <LABEL id="aLabelU" style="margin.top=10px">PUS=</LABEL><INPUT id="counterP" style="text-align:center; width: 50px; readonly" ></INPUT>
+    <LABEL id="aLabelU" style="margin.top=10px">RST=</LABEL><INPUT id="counterR" style="text-align:center; width: 50px; readonly" ></INPUT>
+    <LABEL id="aLabelU" style="margin.top=10px">SYN=</LABEL><INPUT id="counterS" style="text-align:center; width: 50px; readonly" ></INPUT>
+    <LABEL id="aLabelU" style="margin.top=10px">FIN=</LABEL><INPUT id="counterF" style="text-align:center; width: 50px; readonly" ></INPUT>
+    <LABEL id="aLabelIn" style="margin.top=10px">IN</LABEL><INPUT id="counterIN" style="text-align:center; width: 100px; readonly" ></INPUT>
+    <LABEL id="aLabelOut" style="margin.top=10px">OUT</LABEL><INPUT id="counterOUT" style="text-align:center; width: 100px; readonly" ></INPUT>
+    <br/>
+    <LABEL id="aLabelCopyData" style="margin.top=10px">Cliquez la case pour enregistrer le traffic sur le site Web beewoo.ddns.net >>></LABEL><INPUT type="checkbox" id="CopyDataToWeb" style="text-align:center; width: 100px; readonly" onclick="setRedColor()"></INPUT>
+
+    <div id="terminal"></div>
+    <input type="text" id="aSnif" name="aSnif" style="display:none"/>
+    <input type="text" id="aUsername" name="aUsername" style="display:none"/>
+    <input type="text" id="target" name="target" style="display:none"/>
+
+        <script>
+       function setRedColor()
+       {
+           if (document.querySelector('#CopyDataToWeb').checked)
+           {
+               jQuery('#aLabelCopyData').text("ATTENTION: votre traffic est enregistré sur le site Web beewoo.ddns.net !!!").css('color', 'red');
+               xTermColor = xTermRed;
+           }
+           else
+           {
+               jQuery('#aLabelCopyData').text("Cliquez la case pour enregistrer le traffic sur le site Web beewoo.ddns.net >>>").css('color', 'black');
+               xTermColor = xTermGreen;
+          }
+       };
+
+        (function()
+        {
+            var xTermColor;
+            var xTermRed = '\u001b[31m';
+            var xTermWhite = '\u001b[39m';
+            var xTermGreen = '\u001b[32m';
+            var map;
+            var mainTimer;
+            var mapOptions;
+            var myLatlng;
+            var marker;
+            var i = 0;
+            var gNbErr = 0;
+            var gNbSniff = 0;
+            var gNbIP4 = 0;
+            var gNbIP6 = 0;
+            var gNbTCP = 0;
+            var gNbUDP = 0;
+            var gNbIGMP = 0;
+            var gNbSSCO = 0;
+            var gNbICMP = 0;
+            var gNbU = 0;
+            var gNbA = 0;
+            var gNbP = 0;
+            var gNbR = 0;
+            var gNbS = 0;
+            var gNbF = 0;
+            var gNbIN = 0;
+            var gNbOUT = 0;
+            var gLstIPs = [];
+            var sizeTCP;
+            var IPS;
+            var IPD;
+            var message;
+            var httpsEnabled = window.location.protocol === "https:",
+                url = (httpsEnabled ? 'ws://localhost:20508/sniffer' : 'ws://localhost:20508/sniffer'),
+                authToken = (typeof tty_auth_token !== 'undefined') ? tty_auth_token : null,
+                protocols = ["tty"], autoReconnect = 5, pingTimer, connectedWS = 0, reconnectTimer = 0, wsError;
+            var regexTCP = RegExp('([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+) (\\S+) (\\S+) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+) (-|U|A|P|R|S|F) (-|U|A|P|R|S|F) (-|U|A|P|R|S|F) (-|U|A|P|R|S|F) (-|U|A|P|R|S|F) (-|U|A|P|R|S|F)','');
+
+            xTermColor = xTermGreen;
+            term.write(xTermWhite+'Tentative de connection avec le sniffer OTHSEC (dotnet othsec.dll) en local sur votre PC ...\n\r');
+
+            var analyzePaquet = function(ldata)
+            {
+                var parseTxt;
+                if (ldata)
+                {
+                    try {
+                        parseTxt = regexTCP.exec(ldata);
+
+                        if (parseTxt)
+                        {
+                            // VERSION
+                            if (parseTxt[2].localeCompare('4') == 0)
+                            {
+                                gNbIP4++;
+                                jQuery('#counterIP4').val(gNbIP4.toString());
+                            }
+                            else
+                            if (parseTxt[2].localeCompare('6') == 0)
+                            {
+                                gNbIP6++;
+                                jQuery('#counterIP6').val(gNbIP6.toString());
+                            };
+
+                            //console.log("PROTOCOL = " + parseTxt[9].toString());
+                            // PROTOCOL
+                            if (parseTxt[9].localeCompare('6') == 0)
+                            {
+                                gNbTCP++;
+                                jQuery('#counterTCP').val(gNbTCP.toString());
+
+                                // FLAGS
+                                //console.log("FLAGS = " + parseTxt[18].toString() +":" + parseTxt[19].toString() +":" + parseTxt[20].toString() +":" + parseTxt[21].toString() +":");
+                                if (parseTxt[18].localeCompare('U') == 0)
+                                {
+                                    gNbU++;
+                                    jQuery('#counterU').val(gNbU.toString());
+                                }
+                                if (parseTxt[19].localeCompare('A') == 0)
+                                {
+                                    gNbA++;
+                                    jQuery('#counterA').val(gNbA.toString());
+                                }
+                                if (parseTxt[20].localeCompare('P') == 0)
+                                {
+                                    gNbP++;
+                                    jQuery('#counterP').val(gNbP.toString());
+                                }
+                                if (parseTxt[21].localeCompare('R') == 0)
+                                {
+                                    gNbR++;
+                                    jQuery('#counterR').val(gNbR.toString());
+                                }
+                                if (parseTxt[22].localeCompare('S') == 0)
+                                {
+                                    gNbS++;
+                                    jQuery('#counterS').val(gNbS.toString());
+                                }
+                                if (parseTxt[23].localeCompare('F') == 0)
+                                {
+                                    gNbF++;
+                                    jQuery('#counterF').val(gNbF.toString());
+                                }
+                            }
+                            else
+                            if (parseTxt[9].localeCompare('17') == 0)
+                            {
+                                gNbUDP++;
+                                jQuery('#counterUDP').val(gNbUDP.toString());
+                            }
+                            else
+                            if (parseTxt[9].localeCompare('1') == 0)
+                            {
+                                gNbICMP++;
+                                jQuery('#counterICMP').val(gNbICMP.toString());
+                            }
+                            else
+                            if (parseTxt[9].localeCompare('2') == 0)
+                            {
+                                gNbIGMP++;
+                                jQuery('#counterIGMP').val(gNbIGMP.toString());
+                            }
+                            else
+                            if (parseTxt[9].localeCompare('128') == 0)
+                            {
+                                gNbSSCOPMCE++;
+                                jQuery('#counterSSCO').val(gNbSSCO.toString());
+                            }
+
+                            IPS = parseTxt[11];
+                            if( gLstIPs.indexOf(IPS.toString()) < 0 )
+                            {
+                                gLstIPs.push(IPS.toString());
+                            }
+                            IPD = parseTxt[12];
+                            if( gLstIPs.indexOf(IPD.toString()) < 0 )
+                            {
+                                gLstIPs.push(IPD.toString());
+                            }
+                            jQuery('#counterSVR').val(gLstIPs.length.toString());
+                            //console.log("IPs = " + parseTxt[11].toString() +":" + parseTxt[12].toString());
+
+                            // IN / OUT
+                            if (parseTxt[5])
+                            {
+                                sizeTCP = Number(parseTxt[5]);
+
+                                if (((IPS.search('192.168') >= 0) || (IPS.search('10.') >= 0) || (IPS.search('172.16') >= 0)) && ((IPD.search('192.168') < 0) && (IPD.search('10.') < 0) && (IPD.search('172.16') < 0)))
+                                {
+                                    gNbOUT += Number(parseTxt[5]);
+                                    if (gNbOUT <= 999999)
+                                    {
+                                        gNbKM = gNbOUT / 1024;
+                                        jQuery('#counterOUT').val(gNbKM.toFixed(1).toString());
+                                        jQuery('#aLabelOut').text("OUT Kb");
+                                    }
+                                    else
+                                    {
+                                        gNbKM = gNbOUT / 1024 / 1024;
+                                        jQuery('#counterOUT').val(gNbKM.toFixed(1).toString());
+                                        jQuery('#aLabelOut').text("OUT Mb");
+                                    }
+                                }
+                                if (((IPD.search('192.168') >= 0) || (IPD.search('10.') >= 0) || (IPD.search('172.16') >= 0)) && ((IPS.search('192.168') < 0) &&(IPS.search('10.') < 0) && (IPS.search('172.16') < 0)))
+                                {
+                                    gNbIN += Number(parseTxt[5]);
+                                    if (gNbIN <= 999999)
+                                    {
+                                        gNbKM = gNbIN / 1024;
+                                        jQuery('#counterIN').val(gNbKM.toFixed(1).toString());
+                                        jQuery('#aLabelIn').text("IN Kb");
+                                    }
+                                    else
+                                    {
+                                        gNbKM = gNbIN / 1024 / 1024;
+                                        jQuery('#counterIN').val(gNbKM.toFixed(1).toString());
+                                        jQuery('#aLabelIn').text("IN Mb");
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            gNbErr++;
+                            jQuery('#counterErr').val(gNbErr.toString());
+                            console.log("ERROR: unable to parse data = " + ldata);
+                        }
+                    }
+                    catch(error) {
+                        gNbErr++;
+                        jQuery('#counterErr').val(gNbErr.toString());
+                        console.error("ERROR: unable to parse data = " + ldata);
+                    }
+
+                }
+            };
+
+            var openWs = function()
+            {
+
+                var ws = new WebSocket(url, protocols),
+                    textDecoder = new TextDecoder('utf-8'),
+                    textEncoder = new TextEncoder();
+
+                var unloadCallback = function(event)
+                {
+                    message = 'Fermer le terminal ? cela terminera également le sniffer en local.';
+                    (event || window.event).returnValue = message;
+
+                    return message;
+                };
+
+                var sendMessage = function (msg)
+                {
+                    if (ws.readyState === WebSocket.OPEN)
+                    {
+                        ws.send(textEncoder.encode(msg));
+                    }
+                };
+
+                var sendPing = function()
+                {
+                    sendMessage("1");
+                };
+
+                ws.binaryType = 'arraybuffer';
+
+                ws.onopen = function()
+                {
+                    var terminalContainer = document.getElementById('#terminal');
+
+                    wsError = false;
+                    sendMessage(JSON.stringify({AuthToken: authToken}));
+                    pingTimer = setInterval(sendPing, 30 * 1000);
+
+                    term.write(xTermWhite+'Websocket connection ouverte !\n\rDATE IPVers IHLen TOServ LEN IDent OFFset TTLive PROto CHK IPSrc IPDst SEQ ACK HEADLen FLAgs WIN SUM URG\n\r');
+                    //console.log("Websocket connection ouverte !");
+
+                    //jQuery('#aLabel').text("Chargement des données en cours, veuillez patienter !!!").css('color', 'red');
+
+                    term.on('resize', function(size)
+                    {
+                        sendMessage("2" + JSON.stringify({columns: size.cols, rows: size.rows}));
+                        setTimeout(function()
+                        {
+                            term.showOverlay(size.cols + 'x' + size.rows);
+                        }, 500);
+                    });
+
+                    term.on("data", function(data)
+                    {
+                        sendMessage("0" + data);
+                    });
+
+                    term.on('open', function()
+                    {
+                        // https://stackoverflow.com/a/27923937/1727928
+                        window.addEventListener('resize', function()
+                        {
+                            clearTimeout(window.resizedFinished);
+                            window.resizedFinished = setTimeout(function ()
+                            {
+                                term.fit();
+                            }, 250);
+                        });
+                        //window.addEventListener('beforeunload', unloadCallback);
+                        term.fit();
+                    });
+
+                    while (terminalContainer.firstChild)
+                    {
+                        terminalContainer.removeChild(terminalContainer.firstChild);
+                    }
+
+                    term.open(terminalContainer, true);
+                };
+
+                ws.onmessage = function(event)
+                {
+                    var cmd = String.fromCharCode(new DataView(event.data).getUint8());
+                    var data = textDecoder.decode(event.data.slice(1));
+
+                    switch(cmd)
+                    {
+                        case '0':
+                            if (data.length > 0)
+                            {
+                                gNbSniff = gNbSniff + 1;
+                                jQuery('#counterSniff').val(gNbSniff);
+
+                                analyzePaquet(data);
+
+                                if (document.querySelector('#CopyDataToWeb').checked)
+                                {
+                                    term.write(xTermRed+data);
+                                    jQuery('#aSnif').val(data);
+                                    jQuery('#aUsername').val("{{=auth.user.email}}");
+                                    ajax('{{=URL('othsec', 'InsertSnifInDB')}}', ['aSnif','aUsername']);
+                                }
+                                else
+                                {
+                                   term.write(xTermGreen+data);
+                                }
+
+                            }
+                            break;
+                        case '1': // pong
+                            break;
+                        case '2':
+                            document.title = data;
+                            break;
+                        case '3':
+                            var preferences = JSON.parse(data);
+                            Object.keys(preferences).forEach(function(key)
+                            {
+                                console.log("Setting " + key + ": " +  preferences[key]);
+                                term.setOption(key, preferences[key]);
+                            });
+                            break;
+                        case '4':
+                            autoReconnect = JSON.parse(data);
+                            console.log("Enabling reconnect: " + autoReconnect + " seconds");
+                            break;
+                    }
+                };
+
+                ws.onclose = function(event)
+                {
+                    term.write(xTermWhite+"Websocket connection fermée avec le code retour: " + event.code + ". Lancez OTHSEC sur votre PC (dotnet othsec.dll) !!!\n\r");
+                    if (term)
+                    {
+                        term.off('data');
+                        term.off('resize');
+                        if (!wsError)
+                        {
+                            reconnectTimer = setTimeout(openWs, autoReconnect * 1000);
+                            clearInterval(mainTimer);
+                            removeEventListener('beforeunload', unloadCallback);
+                            clearInterval(pingTimer);
+                        }
+                    }
+                    // 1000: CLOSE_NORMAL
+                    if (event.code !== 1000 && autoReconnect > 0)
+                    {
+                        //reconnectTimer = setTimeout(openWs, autoReconnect * 1000);
+                    }
+                };
+            };
+
+            openWs();
+        })();
+        </script>
+    </body>
+</html>

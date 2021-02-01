@@ -1,0 +1,208 @@
+{{extend 'layout.html'}}
+{{import datetime}}
+
+<head>
+        <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map-canvas {
+        height: 600;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 600;
+        margin: 35px 0;
+        padding: 0;
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCkmDp5cxkybaMIT-XLhjKZPFXEkoIF7Wc"></script>
+</head>
+<body>
+    <form>
+        <INPUT id="aUsername" name="aUsername" style="display:none"></INPUT>
+        <INPUT id="aPeriod" name="aPeriod" style="display:none"></INPUT>
+        <div id="target" style="display:none"></div>
+    </form>
+
+    <select name="thePeriod" id="thePeriod">
+        <option value="{{="FROM="+datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}}">A partir de: {{=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}}</option>
+        <option value="1H">Afficher mon traffic depuis 1H</option>
+        <option value="TODAY">Afficher mon traffic aujourd'hui</option>
+        <option value="30D">Afficher mon traffic ce mois-ci</option>
+        <option value="YEAR">Afficher mon traffic cette année</option>
+    </select>
+    <LABEL id="aLabel" style="margin.top=10px"></LABEL><INPUT id="counter" style="text-align:center; width: 50px; readonly" ></INPUT>
+    <div id="map-canvas" style="width: 100%; height:600px;"></div>
+    <div >
+            <LABEL style="vertical-align: top;">
+                Liste des serveurs à vérifier au sens RGPD:
+            </LABEL>
+            <SELECT id='list_push' size="10" style="width: 100%; height:100px;">
+            </SELECT>
+    </div>
+
+    <script type="text/javascript">
+        var map;
+        var mapOptions;
+        var myLatlng;
+        var marker;
+        var i = 0;
+        var image;
+        var sizeico = 20;
+        var aList;
+        var x;
+        var gmarkers = [];
+        var imageHacked = {
+                url: "https://maps.google.com/mapfiles/kml/pal3/icon47.png",
+                scaledSize: new google.maps.Size(sizeico, sizeico),
+                anchor: new google.maps.Point(sizeico/2, sizeico/2)
+            };
+        var imageDanger = {
+                url: "http://labs.google.com/ridefinder/images/mm_20_green.png",
+                size: new google.maps.Size(sizeico, sizeico),
+                anchor: new google.maps.Point(sizeico/2, sizeico/2)
+            };
+
+        function sleep(seconds){
+            var waitUntil = new Date().getTime() + seconds*1000;
+            while(new Date().getTime() < waitUntil) true;
+        }
+
+        function addMark(lon, lat, IP_addr, IsBanned)
+        {
+             if ( (lat != 0) || (lon != 0) ) {
+                 if (IsBanned > 0) {
+                     image = imageHacked;
+                 }
+                 else
+                 {
+                     image = imageDanger;
+                 }
+                 gmarkers.push( new google.maps.Marker({ position: new google.maps.LatLng( lon, lat), map:map, title: IP_addr, icon: image}));
+                 jQuery('#list_push').append('<OPTION>'+IP_addr+'</OPTION>');
+             }
+        }
+
+        function updateOrInsertMark(lon, lat, IP_addr, IsBanned)
+        {
+	         if (IsBanned > 0) {
+                 image = imageHacked;
+             }
+             else
+             {
+                 image = imageDanger;
+             }
+             var found = false;
+             for (var i=0; i < gmarkers.length; i++)
+             {
+                var aposition = new google.maps.LatLng( lon, lat);
+                if (gmarkers[i].getPosition().equals(aposition))
+                {
+                     found = true;
+                     gmarkers[i].setMap(map);
+                     break;
+                }
+
+             }
+             if (!found)
+             {
+                 gmarkers.push( new google.maps.Marker({ position: aposition, map:map, title: IP_addr, icon: image}));
+                 jQuery('#list_push').append('<OPTION>'+IP_addr+'</OPTION>');
+             }
+        }
+
+        function addListMarks(lst_IP)
+        {
+             i = i + 1;
+             //console.log("Nbr elem=" + lst_IP.length);
+             jQuery('#counter').val(lst_IP.length.toString());
+             lst_IP.forEach(function(element) {
+                  addMark(element[0], element[1], element[2], element[3]);
+                  //console.log("IP elem=" + element[2]);
+                });
+
+        };
+
+        function updateListMarks(lst_IP)
+        {
+             i = i + 1;
+             //console.log("Nbr elem=" + lst_IP.length);
+             jQuery('#counter').val(lst_IP.length.toString());
+             lst_IP.forEach(function(element)
+             {
+                  updateOrInsertMark(element[0], element[1], element[2], element[3]);
+                  //console.log("IP elem=" + element[2]);
+             });
+
+             //removeAllOthersMarkers(lst_IP);
+
+        };
+
+        function removeAllOthersMarkers(lst_IP)
+        {
+            var i;
+            var found;
+
+            for (var i=0; i < gmarkers.length; i++)
+            {
+                found = false;
+
+                lst_IP.forEach(function(element)
+                {
+                     var position = new google.maps.LatLng(element[0], element[1]);
+                     if (markers[i].getPosition().equals(position))
+                     {
+                         found = true;
+                         //break;
+                     }
+                });
+
+                if (!found)
+                {
+                     gmarkers[i].setMap(null);
+                }
+            }
+        }
+
+        function initialize()
+        {
+            myLatLng = new google.maps.LatLng(48.856614, 2.3522219);
+            mapOptions = { zoom: 2, minZoom: 2, center: myLatLng };
+            i = 0;
+
+            map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        };
+        google.maps.event.addDomListener(window, 'load', initialize());
+
+        jQuery(document).ready( function() {
+            jQuery('#aLabel').text("Chargement des données en cours, veuillez patienter !!!").css('color', 'red');
+
+            window.setInterval( function() {
+                aString = jQuery('#target').text();
+                //console.log("ajax return = " + aString);
+                if (aString.length > 0)
+                {
+                    jQuery('#aLabel').text("Nombre de serveurs qui échangent des informations avec vous:").css('color', 'black');
+                    jQuery('#list_push').empty();
+
+                    aList = JSON.parse( aString);
+
+                    if (gmarkers.length <= 0)
+                    {
+                        addListMarks(aList);
+                    }
+                    else
+                    {
+                        updateListMarks(aList);
+                    }
+
+                }
+
+                jQuery('#aUsername').val("{{=auth.user.email}}");
+                x = jQuery('#thePeriod').val();
+                jQuery('#aPeriod').val(x);
+                ajax('{{=URL('othsec', 'GetListMarkers')}}', ['aUsername','aPeriod'], 'target');
+        }, 2000) } );
+</script>
+
+</body>

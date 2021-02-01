@@ -1,0 +1,645 @@
+# -*- coding: utf-8 -*-
+import simplejson as json
+import sys, socket, datetime, threading
+import logging
+import pyparsing as pp
+
+# Converting IP Long / decimal (3232235521) to IP dotted address (192.168.0.1)
+def MyLONG2IP(a):
+   b = [0,0,0,0]
+   c = 16777216.0
+   a += 0.0
+   for i in range(4):
+      k = int((a / c))
+      a -= c * k
+      b[i]= k
+      c /= 256.0
+      d = '.'.join(str(x) for x in b)
+   return(str(d))
+
+def MyIP2LONG(a):
+   d = 0.0
+   if len(str(a)) > 0:
+       b = str(a).split(".")
+       if len(b) == 4:
+         for i in range(4):
+           d *= 256.0
+           d += int(b[i])
+   return(int(d))
+
+def LocalizeIpAddress(ip_client):
+    myvalue = MyIP2LONG(ip_client)
+    vlat = 0.0
+    vlon = 0.0
+    if myvalue != None:
+        ipquery = (db.ipligence2.ip_from <= myvalue) & (db.ipligence2.ip_to >= myvalue)
+        # Fetch data related to IP address (IPligence database)
+        for row in db(ipquery).select():
+            vlon = row['longitude']
+            vlat = row['latitude']
+            if (vlat + vlon > 0):
+                break
+    return([vlon, vlat])
+
+def InsertLocalizedInfoInDB(anobject):
+    if (len(anobject)==0 ):
+        logger.debug('InsertLocalizedInfoInDB(IP): objects empty')
+    else:
+        logger.debug('InsertLocalizedInfoInDB(IP): %s ' % anobject['ip_addr'])
+
+        IsAValidIP = False
+        IPaddr = ''
+
+        try:
+            socket.inet_aton(anobject['ip_addr'])
+        except socket.error:
+            try:
+                IPaddr = socket.gethostbyname(anobject['ip_addr'])
+            except socket.error:
+                IPaddr = 'Invalid'
+            else:
+                IPaddr = socket.gethostbyname(anobject['ip_addr'])
+                IsAValidIP = True
+        else:
+            IPaddr = anobject['ip_addr']
+            IsAValidIP = True
+
+        if IsAValidIP :
+            try:
+                lon = 0
+                lat = 0
+                [lon, lat] = LocalizeIpAddress(IPaddr)
+            except Exception, e:
+                logger.debug('InsertLocalizedInfoInDB->LocalizeIpAddress(IP): Exception - %s' % e)
+            else:
+                try:
+                    anobject['longitude'] = lon
+                    anobject['latitude'] = lat
+                    db.ipanalyzed.bulk_insert([anobject])
+                except Exception, e:
+                    logger.debug('InsertLocalizedInfoInDB(IP): Exception - %s' % e)
+                    logger.debug('InsertLocalizedInfoInDB(IP): return = ' + str(anobject))
+                else:
+                    logger.debug('InsertLocalizedInfoInDB(IP): return = ' + str(anobject))
+                    db.commit()
+    return
+
+def InsertLocalizedInfoInDBLog(anobject):
+    if (len(anobject)==0 ):
+        logger.debug('InsertLocalizedInfoInDBLog(IP): objects empty')
+    else:
+        logger.debug('InsertLocalizedInfoInDBLog(IP): %s ' % anobject['ip_addr'])
+
+        IsAValidIP = False
+        IPaddr = ''
+
+        try:
+            socket.inet_aton(anobject['ip_addr'])
+        except socket.error:
+            try:
+                IPaddr = socket.gethostbyname(anobject['ip_addr'])
+            except socket.error:
+                IPaddr = 'Invalid'
+            else:
+                IPaddr = socket.gethostbyname(anobject['ip_addr'])
+                IsAValidIP = True
+        else:
+            IPaddr = anobject['ip_addr']
+            IsAValidIP = True
+
+        if IsAValidIP :
+            try:
+                lon = 0
+                lat = 0
+                [lon, lat] = LocalizeIpAddress(IPaddr)
+            except Exception, e:
+                logger.debug('InsertLocalizedInfoInDBLog->LocalizeIpAddress(IP): Exception - %s' % e)
+            else:
+                try:
+                    anobject['longitude'] = lon
+                    anobject['latitude'] = lat
+                    db.loganalyzed.bulk_insert([anobject])
+                except Exception, e:
+                    logger.debug('InsertLocalizedInfoInDBLog(IP): Exception - %s' % e)
+                    logger.debug('InsertLocalizedInfoInDBLog(IP): return = ' + str(anobject))
+                else:
+                    logger.debug('InsertLocalizedInfoInDBLog(IP): return = ' + str(anobject))
+                    db.commit()
+    return
+
+def parseTCPTcpdump(stringToParse, theUsername):
+    try:
+        #logger.debug('parseTCPTcpdump(stringToParse): = ' + str(stringToParse))
+        parseObjectOTHSEC = dict()
+        parseObjectIPANALYZED1 = dict()
+        parseObjectIPANALYZED2 = dict()
+        DATETIME = pp.Word(pp.nums+'.')
+        PROTOCOL = pp.Word(pp.alphas)
+        IPFROM = pp.Word(pp.alphanums+'.'+':'+'-'+'_')
+        IPTO = pp.Word(pp.alphanums+'.'+':'+'-'+'_')
+        theIPFrom = ''
+        thePortFrom = ''
+        theIPTo = ''
+        thePortTo = ''
+        theFLAGS = ''
+        theLine = DATETIME + PROTOCOL + IPFROM + pp.OneOrMore(pp.Literal('>')) + IPTO + pp.restOfLine
+        resultLine = theLine.parseString(stringToParse)
+        theRest = resultLine[5]
+        txt=resultLine[0].split('.')
+        theDateTime = datetime.datetime.fromtimestamp(float(txt[0])).strftime('%Y-%m-%d %X')
+
+        theProtocol = resultLine[1]
+        if (theProtocol == 'IP'):
+            varIP = resultLine[2].split('.')
+            thePortFrom = varIP.pop()
+            theIPFrom = ".".join(varIP)
+
+            varIP = resultLine[4].split('.')
+            thePortTo = varIP.pop()
+            thePortTo = thePortTo[:-1]
+            theIPTo = ".".join(varIP)
+
+        else:
+            varIP = resultLine[2].split('.')
+            thePortFrom = varIP.pop()
+            theIPFrom = varIP
+
+            varIP = resultLine[4].split('.')
+            thePortTo = varIP.pop()
+            thePortTo = thePortTo[:-1]
+            theIPTo = varIP
+
+        try:
+            FLAGS = pp.Word(pp.alphas+'.')
+            theLineDetails = pp.SkipTo(pp.Literal('Flags ['), include=True) + FLAGS + pp.Literal('],') + pp.restOfLine
+            resultLineDetails = theLineDetails.parseString(resultLine[5])
+            theFLAGS = resultLineDetails[1]
+        except Exception, e:
+            logger.debug('parseTCPTcpdump(stringToParse): Exception - %s' % e)
+
+        parseObjectOTHSEC = { 'body_message': theRest, 'flags': str(theFLAGS),'addr_from': theIPFrom, 'port_from': thePortFrom, 'addr_to': theIPTo, 'port_to': thePortTo, 'protocol': theProtocol, 'datetime_remote': theDateTime, 'datetime_othsec': datetime.datetime.now().strftime('%Y-%m-%d %X'), 'username': str(theUsername)  }
+        parseObjectIPANALYZED1 = { 'username': str(theUsername), 'ip_addr': theIPTo, 'port': thePortTo, 'protocol': theProtocol, 'datetime': theDateTime }
+        parseObjectIPANALYZED2 = { 'username': str(theUsername), 'ip_addr': theIPFrom, 'port': thePortFrom, 'protocol': theProtocol, 'datetime': theDateTime }
+    except Exception, e:
+        logger.debug('parseTCPTcpdump(stringToParse): Exception - %s' % e)
+        #logger.debug('parseTCP(stringToParse): parseObjectOTHSEC = ' + str(parseObjectOTHSEC))
+        #logger.debug('parseTCP(stringToParse): parseObjectIPANALYZED1 = ' + str(parseObjectIPANALYZED1))
+        #logger.debug('parseTCP(stringToParse): parseObjectIPANALYZED2 = ' + str(parseObjectIPANALYZED2))
+    else:
+        return([parseObjectOTHSEC,parseObjectIPANALYZED1,parseObjectIPANALYZED2])
+    return
+
+def parseTCPSnif(stringToParse, theUsername):
+    try:
+        parseObjectOTHSEC = dict()
+        parseObjectIPANALYZED1 = dict()
+        parseObjectIPANALYZED2 = dict()
+
+        logger.debug('parseTCPSnif(stringToParse): = ' + str(stringToParse))
+
+        now_datetime = pp.Word(pp.nums)								# datetime
+
+        iph_version = pp.Word(pp.nums)					            # IP Version
+        iph_iphdrlen = pp.Word(pp.nums)						        # IP Header Length
+        iph_tos = pp.Word(pp.nums)						            # Type Of Service
+        iph_tot_len = pp.Word(pp.nums)							    # IP Total Length
+        iph_id = pp.Word(pp.nums)								    # Identification
+        iph_offset = pp.Word(pp.nums)								# Offset
+        iph_ttl = pp.Word(pp.nums)						            # TTL
+        iph_protocol  = pp.Word(pp.nums)				            # Protocol
+        iph_check = pp.Word(pp.nums)				                # Checksum
+
+        iph_vfc = pp.Word(pp.nums)						        # IP Version
+        iph_flow = pp.Word(pp.nums)						        # Flow
+        iph_plen = pp.Word(pp.nums)							    # IP Header Length
+        iph_nxt = pp.Word(pp.nums)								# Next Header
+        iph_hlim = pp.Word(pp.nums)						        # Limit
+        iph_hops  = pp.Word(pp.nums)				            # Hops
+
+        source_sin_addr = pp.Word(pp.alphanums+'.'+':'+'-'+'_')     # Source IP
+        dest_sin_addr = pp.Word(pp.alphanums+'.'+':'+'-'+'_')       # Destination IP
+
+        tcph_source = pp.Word(pp.nums)							    # Source Port
+        tcph_dest = pp.Word(pp.nums)							    # Destination Port
+        tcph_seq = pp.Word(pp.nums)							        # Sequence Number
+        tcph_ack_seq = pp.Word(pp.nums)						        # Acknowledge Number
+        tcph_doff = pp.Word(pp.nums)					            # Header Length
+        tcph_urg = pp.Word(pp.alphanums+'-')						# Urgent Flag
+        tcph_ack = pp.Word(pp.alphanums+'-')						# Acknowledgement Flag
+        tcph_psh = pp.Word(pp.alphanums+'-')						# Push Flag
+        tcph_rst = pp.Word(pp.alphanums+'-')						# Reset Flag
+        tcph_syn = pp.Word(pp.alphanums+'-')						# Synchronise Flag
+        tcph_fin = pp.Word(pp.alphanums+'-')						# Finish Flag
+        tcph_window = pp.Word(pp.nums)							    # Window
+        tcph_check = pp.Word(pp.nums)							    # Checksum
+        tcph_urg_ptr = pp.Word(pp.nums)							    # Urgent Pointer
+
+        theLineBeg = now_datetime + iph_version + pp.restOfLine
+        resultLine = theLineBeg.parseString(stringToParse)
+        ip_version = int(resultLine[1])
+
+        if (ip_version == 4):
+            theLine = now_datetime + iph_version + iph_iphdrlen + iph_tos + iph_tot_len + iph_id + iph_offset + iph_ttl + iph_protocol + iph_check + \
+                source_sin_addr + dest_sin_addr + tcph_source + tcph_dest + tcph_seq + tcph_ack_seq + \
+                tcph_doff + tcph_urg + tcph_ack + tcph_psh + tcph_rst + tcph_syn + tcph_fin + \
+                tcph_window + tcph_check + tcph_urg_ptr + pp.restOfLine
+            resultLine = theLine.parseString(stringToParse)
+
+            theDateTime = datetime.datetime.fromtimestamp(float(resultLine[0])).strftime('%Y-%m-%d %X')
+            parseObjectOTHSEC['datetime_remote'] = str(theDateTime)								         # datetime
+            parseObjectOTHSEC['iph_version'] = int(resultLine[1])				                         # IP Version
+            parseObjectOTHSEC['iph_iphdrlen'] = int(resultLine[2])						                 # IP Header Length
+            parseObjectOTHSEC['iph_tos'] = int(resultLine[3])						                     # Type Of Service
+            parseObjectOTHSEC['iph_tot_len'] = int(resultLine[4])							             # IP Total Length
+            parseObjectOTHSEC['iph_id'] = int(resultLine[5])							                 # Identification
+            parseObjectOTHSEC['iph_offset'] = int(resultLine[6])							             # Offset
+            parseObjectOTHSEC['iph_ttl'] = int(resultLine[7])						                     # TTL
+            parseObjectOTHSEC['protocol']  = str(resultLine[8])				                             # Protocol
+            parseObjectOTHSEC['iph_check'] = int(resultLine[9])				                             # Checksum
+            parseObjectOTHSEC['addr_from'] = str(resultLine[10])				                             # Source IP
+            parseObjectOTHSEC['addr_to'] = str(resultLine[11])					                         # Destination IP
+            parseObjectOTHSEC['port_from'] = str(resultLine[12])			                	         # Source Port
+            parseObjectOTHSEC['port_to'] = str(resultLine[13])							                 # Destination Port
+            parseObjectOTHSEC['tcph_seq'] = int(resultLine[14])							                 # Sequence Number
+            parseObjectOTHSEC['tcph_ack_seq'] = int(resultLine[15])						                 # Acknowledge Number
+            parseObjectOTHSEC['tcph_doff'] = int(resultLine[16])					                     # Header Length
+            parseObjectOTHSEC['tcph_urg'] = int(resultLine[17] == 'U')							         # Urgent Flag
+            parseObjectOTHSEC['tcph_ack'] = int(resultLine[18] == 'A')							         # Acknowledgement Flag
+            parseObjectOTHSEC['tcph_psh'] = int(resultLine[19] == 'P')						             # Push Flag
+            parseObjectOTHSEC['tcph_psh'] = int(resultLine[20] == 'R')						             # Reset Flag
+            parseObjectOTHSEC['tcph_syn'] = int(resultLine[21] == 'S')							         # Synchronise Flag
+            parseObjectOTHSEC['tcph_fin'] = int(resultLine[22] == 'F')							         # Finish Flag
+            parseObjectOTHSEC['tcph_window'] = int(resultLine[23])							             # Window
+            parseObjectOTHSEC['tcph_check'] = int(resultLine[24])							             # Checksum
+            parseObjectOTHSEC['tcph_urg_ptr'] = int(resultLine[25])						                 # Urgent Pointer
+            parseObjectOTHSEC['body_message'] = str(resultLine[26])						                 # Body
+        elif (ip_version == 96):
+            theLine = now_datetime + iph_vfc + iph_flow + iph_plen + iph_nxt + iph_hlim + iph_hops + \
+                source_sin_addr + dest_sin_addr + \
+                tcph_source + tcph_dest + tcph_seq + tcph_ack_seq + tcph_doff + tcph_urg + \
+                tcph_ack + tcph_psh + tcph_rst + tcph_syn + tcph_fin +\
+                tcph_window + tcph_check + tcph_urg_ptr + pp.restOfLine
+
+            resultLine = theLine.parseString(stringToParse)
+
+            theDateTime = datetime.datetime.fromtimestamp(float(resultLine[0])).strftime('%Y-%m-%d %X')
+            parseObjectOTHSEC['datetime_remote'] = str(theDateTime)								         # datetime
+            parseObjectOTHSEC['iph_vfc'] = int(resultLine[1])				                             # IP Version
+            parseObjectOTHSEC['iph_flow'] = int(resultLine[2])						                     # IP Header Length
+            parseObjectOTHSEC['iph_plen'] = int(resultLine[3])						                     # Type Of Service
+            parseObjectOTHSEC['iph_nxt'] = int(resultLine[4])							                 # IP Total Length
+            parseObjectOTHSEC['iph_hlim'] = int(resultLine[5])							                 # Identification
+            parseObjectOTHSEC['iph_offset'] = int(resultLine[6])							             # Offset
+            parseObjectOTHSEC['iph_hops'] = int(resultLine[7])						                     # TTL
+            parseObjectOTHSEC['addr_from'] = str(resultLine[8])				                             # Source IP
+            parseObjectOTHSEC['addr_to'] = str(resultLine[9])					                         # Destination IP
+            parseObjectOTHSEC['port_from'] = str(resultLine[10])			                	         # Source Port
+            parseObjectOTHSEC['port_to'] = str(resultLine[11])							                 # Destination Port
+            parseObjectOTHSEC['tcph_seq'] = int(resultLine[12])							                 # Sequence Number
+            parseObjectOTHSEC['tcph_ack_seq'] = int(resultLine[13])						                 # Acknowledge Number
+            parseObjectOTHSEC['tcph_doff'] = int(resultLine[14])					                     # Header Length
+            parseObjectOTHSEC['tcph_urg'] = int(resultLine[15] == 'U')							         # Urgent Flag
+            parseObjectOTHSEC['tcph_ack'] = int(resultLine[16] == 'A')							         # Acknowledgement Flag
+            parseObjectOTHSEC['tcph_psh'] = int(resultLine[17] == 'P')							         # Push Flag
+            parseObjectOTHSEC['tcph_rst'] = int(resultLine[18] == 'R')						             # Reset Flag
+            parseObjectOTHSEC['tcph_syn'] = int(resultLine[19] == 'S')							         # Synchronise Flag
+            parseObjectOTHSEC['tcph_fin'] = int(resultLine[20] == 'F')							         # Finish Flag
+            parseObjectOTHSEC['tcph_window'] = int(resultLine[21])							             # Window
+            parseObjectOTHSEC['tcph_check'] = int(resultLine[22])							             # Checksum
+            parseObjectOTHSEC['tcph_urg_ptr'] = int(resultLine[23])						                 # Urgent Pointer
+            parseObjectOTHSEC['body_message'] = str(resultLine[24])						                 # rest of mess
+        else:
+            return;
+
+        parseObjectOTHSEC['datetime_othsec'] = str(datetime.datetime.now().strftime('%Y-%m-%d %X'))	 # datetime
+        parseObjectOTHSEC['username'] = str(theUsername)                                             # username
+
+        parseObjectIPANALYZED1 = { 'username': str(theUsername), 'ip_addr': resultLine[9], 'port': resultLine[11], 'ip_version': resultLine[1], 'tcp_protocol': resultLine[8], 'datetime': theDateTime }
+        parseObjectIPANALYZED2 = { 'username': str(theUsername), 'ip_addr': resultLine[10], 'port': resultLine[12], 'ip_version': resultLine[1], 'tcp_protocol': resultLine[8], 'datetime': theDateTime }
+    except Exception, e:
+        logger.debug('parseTCPSnif(stringToParse): Exception - %s' % e)
+
+    else:
+        return([parseObjectOTHSEC,parseObjectIPANALYZED1,parseObjectIPANALYZED2])
+    return
+
+def parseTCPTail(stringToParse, theUsername):
+    try:
+        #logger.debug('parseTCPTail(stringToParse): = ' + str(stringToParse))
+        parseObjectLOGANALYZED = dict()
+        DATETIME = pp.Word(pp.alphas) + pp.Word(pp.nums+'.') + pp.Word(pp.nums+':')
+        HOST = pp.Word(pp.alphanums+'.'+':'+'-'+'_')
+        SERVICE = pp.Word(pp.alphanums+'.'+':'+'-'+'_'+'['+']')
+        IP = pp.Word(pp.alphanums+'.'+':'+'-'+'_')
+        USER = pp.Word(pp.alphanums+'.'+':'+'-'+'_')
+        PORT = pp.Word(pp.alphanums+'.'+':'+'-'+'_')
+        theIP = ''
+        theUser = ''
+        theLine1 = DATETIME + pp.SkipTo(pp.Literal('authentication failure;'), include=True) + pp.SkipTo(pp.Literal('rhost='), include=True) + IP + pp.SkipTo(pp.Literal('user='), include=True) + USER + pp.restOfLine
+        theLine2 = DATETIME + HOST + SERVICE + pp.SkipTo(pp.Literal('Failed password for'), include=True) + USER + pp.Literal('from') + IP + pp.Literal('port') + PORT + pp.restOfLine
+
+        resultLine1 = None
+        resultLine2 = None
+
+        try:
+            resultLine1 = theLine1.parseString(stringToParse)
+        except Exception, e:
+            logger.debug('parseTCPTail(stringToParse): Exception - %s' % e)
+        else:
+            logger.debug('parseTCPTail() match rule 1 - authentication failure ')
+            theDateTime = datetime.datetime.now().strftime('%Y-%m-%d %X')
+            theService = resultLine1[4]
+            theUser = resultLine1[7]
+            theIP = resultLine1[9]
+            thePort = resultLine1[11]
+
+        try:
+            resultLine2 = theLine2.parseString(stringToParse)
+        except Exception, e:
+            logger.debug('parseTCPTail(stringToParse): Exception - %s' % e)
+        else:
+            logger.debug('parseTCPTail() match rule 2 - Failed password')
+            theDateTime = datetime.datetime.now().strftime('%Y-%m-%d %X')
+            theService = resultLine2[4]
+            theUser = resultLine2[7]
+            theIP = resultLine2[8]
+            thePort = resultLine2[10]
+
+            parseObjectLOGANALYZED = { 'username': str(theUsername), 'logon': str(theUser), 'ip_addr': theIP, 'port': thePort, 'service': theService, 'auth_failure': 1, 'datetime': theDateTime }
+            return([parseObjectLOGANALYZED])
+
+    except Exception, e:
+        logger.debug('parseTCPTail(stringToParse): Exception - %s' % e)
+
+    return
+
+def InsertTraceInDB():
+  try:
+    lock = threading.Lock()
+    lock.acquire()
+    myParam = ''
+    theUsername = ''
+    SQLtext = dict()
+    if not request.vars.aTrace:
+        logger.debug('InsertTraceInDB(): with empty param')
+    else:
+        myParam = request.vars.aTrace;
+        theUsername = request.vars.aUsername;
+
+        try:
+            #logger.debug('InsertTraceInDB(): myParam = ' + str(myParam))
+            ListObjects = parseTCPTcpdump(myParam, theUsername)
+            db.othsec.bulk_insert([ListObjects[0]])
+            InsertLocalizedInfoInDB(ListObjects[1])
+            InsertLocalizedInfoInDB(ListObjects[2])
+        except Exception, e:
+            logger.debug('InsertTraceInDB(): Exception - %s' % e)
+            logger.debug('InsertTraceInDB(IPoth): anobject0 = ' + str(ListObjects[0]))
+            logger.debug('InsertTraceInDB(IPFrom): anobject1 = ' + str(ListObjects[1]))
+            logger.debug('InsertTraceInDB(IPto): anobject2 = ' + str(ListObjects[2]))
+        else:
+            db.commit()
+            logger.debug('InsertTraceInDB(IPoth): anobject0 = ' + str(ListObjects[0]))
+            logger.debug('InsertTraceInDB(IPFrom): anobject1 = ' + str(ListObjects[1]))
+            logger.debug('InsertTraceInDB(IPto): anobject2 = ' + str(ListObjects[2]))
+        return
+  finally:
+    lock.release()
+
+def InsertLogInDB():
+  try:
+    lock = threading.Lock()
+    lock.acquire()
+    myParam = ''
+    theUsername = ''
+    SQLtext = dict()
+    if not request.vars.aLog:
+        logger.debug('InsertLogInDB(): error since empty param received from web client ajax')
+    else:
+        myParam = request.vars.aLog;
+        theUsername = request.vars.aUsername;
+
+        try:
+            #logger.debug('InsertLogInDB(): myParam = ' + str(myParam))
+            ListObjects = parseTCPTail(myParam, theUsername)
+            logger.debug('InsertLogInDB(): anobject = ' + str(ListObjects[0]))
+            InsertLocalizedInfoInDBLog(ListObjects[0])
+        except Exception, e:
+            logger.debug('InsertLogInDB(): Exception - %s' % e)
+            logger.debug('InsertLogInDB(IPoth): anobject0 = ' + str(ListObjects[0]))
+        else:
+            db.commit()
+            logger.debug('InsertLogInDB(IPoth): anobject0 = ' + str(ListObjects[0]))
+        return
+  finally:
+      lock.release()
+
+def InsertSnifInDB():
+  try:
+    lock = threading.Lock()
+    lock.acquire()
+    myParam = ''
+    theUsername = ''
+    SQLtext = dict()
+    if not request.vars.aSnif:
+        logger.debug('InsertSnifInDB(): with empty param')
+    else:
+        myParam = request.vars.aSnif;
+        theUsername = request.vars.aUsername;
+
+        try:
+            #logger.debug('InsertTraceInDB(): myParam = ' + str(myParam))
+            ListObjects = parseTCPSnif(myParam, theUsername)
+            db.othsec.bulk_insert([ListObjects[0]])
+            InsertLocalizedInfoInDB(ListObjects[1])
+            InsertLocalizedInfoInDB(ListObjects[2])
+        except Exception, e:
+            logger.debug('InsertSnifInDB(): Exception - %s' % e)
+            logger.debug('InsertSnifInDB(IPoth): anobject0 = ' + str(ListObjects[0]))
+            logger.debug('InsertSnifInDB(IPFrom): anobject1 = ' + str(ListObjects[1]))
+            logger.debug('InsertSnifInDB(IPto): anobject2 = ' + str(ListObjects[2]))
+        else:
+            db.commit()
+            logger.debug('InsertSnifInDB(IPoth): anobject0 = ' + str(ListObjects[0]))
+            logger.debug('InsertSnifInDB(IPFrom): anobject1 = ' + str(ListObjects[1]))
+            logger.debug('InsertSnifInDB(IPto): anobject2 = ' + str(ListObjects[2]))
+        return
+  finally:
+    lock.release()
+
+@auth.requires_login()
+def GetListMarkers():
+    if ((not request.vars.aUsername) or (not request.vars.aPeriod)):
+        logger.debug('GetListMarkers(): with empty param')
+    else:
+        theUsername = request.vars['aUsername']
+        thePeriod = request.vars['aPeriod']
+        arrayOfMarks = []
+
+        query = (db.ipanalyzed.username == theUsername) & (~db.ipanalyzed.ip_addr.like("224.%")) & (~db.ipanalyzed.ip_addr.like("127.%")) & (~db.ipanalyzed.ip_addr.like("169.254.%")) & (~db.ipanalyzed.ip_addr.like("192.168.%")) & (~db.ipanalyzed.ip_addr.like("172.16.%")) & ((db.ipanalyzed.latitude > 0) | (db.ipanalyzed.longitude > 0))
+        rows = db(query).select( db.ipanalyzed.latitude, db.ipanalyzed.longitude, db.ipanalyzed.ip_addr, distinct=True)
+        for row in rows:
+            arrayOfMarks.append( [row.latitude, row.longitude, row.ip_addr])
+
+        logger.debug('GetListMarkers([%s,%s]): %s' % (theUsername, thePeriod, json.dumps(arrayOfMarks)))
+
+        return json.dumps(arrayOfMarks)
+
+#class Client(object):
+#    def __init__(self, url, timeout):
+#        self.url = url
+#        self.timeout = timeout
+#        self.ioloop = IOLoop.instance()
+#        self.ws = None
+#        self.connect()
+#        PeriodicCallback(self.keep_alive, 20000, io_loop=self.ioloop).start()
+#        self.ioloop.start()
+#    @gen.coroutine
+#    def connect(self):
+#        print "trying to connect"
+#        try:
+#            self.ws = yield websocket_connect(self.url)
+#        except Exception, e:
+#            print "connection error"
+#        else:
+#            print "connected"
+#            self.run()
+#    @gen.coroutine
+#    def run(self):
+#        while True:
+#            msg = yield self.ws.read_message()
+#            print msg
+#            if msg is None:
+#                print "connection closed"
+#                self.ws = None
+#                break
+#    def keep_alive(self):
+#        if self.ws is None:
+#            self.connect()
+#        else:
+#            self.ws.write_message("keep alive")
+
+@auth.requires_login()
+def index():
+    return locals()
+
+@auth.requires_login()
+def ClientoThSecWebSocket():
+    return locals()
+
+@auth.requires_login()
+def DisplayXtermForm():
+    export_classes = dict(csv=True, json=False, html=False,
+                          tsv=False, xml=False, csv_with_hidden_cols=False,
+                          tsv_with_hidden_cols=False)
+    myquery = (db.othsec.idn != None) | (db.othsec.idn < 10)
+    gridOTHSEC = SQLFORM.grid(myquery, showbuttontext=False, exportclasses=export_classes)
+    return dict( gridOTHSEC = gridOTHSEC)
+
+@auth.requires_login()
+def DisplayXtermFormSniffer():
+    export_classes = dict(csv=True, json=False, html=False,
+                          tsv=False, xml=False, csv_with_hidden_cols=False,
+                          tsv_with_hidden_cols=False)
+    myquery = (db.othsec.idn != None) | (db.othsec.idn < 10)
+    gridOTHSEC = SQLFORM.grid(myquery, showbuttontext=False, exportclasses=export_classes)
+    return dict( gridOTHSEC = gridOTHSEC)
+
+@auth.requires_login()
+def DisplayXtermFormTail():
+    export_classes = dict(csv=True, json=False, html=False,
+                          tsv=False, xml=False, csv_with_hidden_cols=False,
+                          tsv_with_hidden_cols=False)
+    myquery = (db.othsec.idn != None) | (db.othsec.idn < 10)
+    gridOTHSEC = SQLFORM.grid(myquery, showbuttontext=False, exportclasses=export_classes)
+    return dict( gridOTHSEC = gridOTHSEC)
+
+@auth.requires_login()
+def DisplayOTHSECDbGrid():
+    export_classes = dict(csv=True, json=False, html=False,
+                          tsv=False, xml=False, csv_with_hidden_cols=False,
+                          tsv_with_hidden_cols=False)
+
+        #Define headers as tuples/dictionaries
+    headers = {'othsec.id':   'ID',
+           'othsec.datetime_remote': 'Date',
+           'othsec.iph_version': 'Version',
+           'othsec.protocol': 'Protocol',
+           'othsec.addr_from': 'IP Addr From',
+           'othsec.addr_to': 'IP Addr To',
+           'othsec.port_from': 'Port From',
+           'othsec.port_to': 'Port To',
+           'othsec.tcph_urg': 'URGENT',
+           'othsec.tcph_ack': 'ACKNOW',
+           'othsec.tcph_psh': 'PUSH',
+           'othsec.tcph_rst': 'RESET',
+           'othsec.tcph_syn': 'SYNC',
+           'othsec.tcph_fin': 'FIN'
+              }
+
+    fields = (db.othsec.id,
+           db.othsec.datetime_remote,
+           db.othsec.iph_version,
+           db.othsec.protocol,
+           db.othsec.addr_from,
+           db.othsec.addr_to,
+           db.othsec.port_from,
+           db.othsec.port_to,
+           db.othsec.tcph_urg,
+           db.othsec.tcph_ack,
+           db.othsec.tcph_psh,
+           db.othsec.tcph_rst,
+           db.othsec.tcph_syn,
+           db.othsec.tcph_fin)
+
+    db.othsec.protocol.represent = lambda r, row: 'TCP' if (row.protocol == 6) else ('UDP' if (row.protocol == 17) else ('ICMP' if (row.protocol == 1) else r))
+
+    links = [lambda row: A('Geoloc the IP >',_href=URL("trackrctrl","DisplayTrackRIPGeo", vars=dict(Enter_IP_Address=row.ip_addr)))]
+    myquery = (db.othsec.idn != None) | (db.othsec.idn < 10)
+    gridOTHSEC = SQLFORM.grid(myquery, showbuttontext=False, exportclasses=export_classes, orderby=~db.othsec.datetime_othsec, fields=fields, headers=headers, deletable=False, editable=False, details=False, selectable=False)
+    return dict( gridOTHSEC = gridOTHSEC)
+
+@auth.requires_login()
+def DisplayIPANALYZEDDbGrid():
+    export_classes = dict(csv=True, json=False, html=False,
+                          tsv=False, xml=False, csv_with_hidden_cols=False,
+                          tsv_with_hidden_cols=False)
+    myquery = (~db.ipanalyzed.ip_addr.like("127.%")) & (~db.ipanalyzed.ip_addr.like("169.254.%")) & (~db.ipanalyzed.ip_addr.like("192.168.%")) & (~db.ipanalyzed.ip_addr.like("172.16.%"))
+
+    #Define headers as tuples/dictionaries
+    headers = {'ipanalyzed.id':   'ID',
+           'ipanalyzed.datetime': 'datetime',
+           'ipanalyzed.ip_version': 'ip_version',
+           'ipanalyzed.tcp_protocol': 'protocol',
+           'ipanalyzed.ip_addr': 'IP_addr',
+           'ipanalyzed.port': 'port',
+           'ipanalyzed.status': 'status',
+           'ipanalyzed.longitude': 'longitude',
+           'ipanalyzed.latitude': 'latitude'
+              }
+
+    fields = (db.ipanalyzed.id,
+           db.ipanalyzed.datetime,
+           db.ipanalyzed.ip_version,
+           db.ipanalyzed.tcp_protocol,
+           db.ipanalyzed.ip_addr,
+           db.ipanalyzed.port,
+           db.ipanalyzed.status,
+           db.ipanalyzed.longitude,
+           db.ipanalyzed.latitude)
+
+    db.ipanalyzed.tcp_protocol.represent = lambda r, row: 'TCP' if (row.tcp_protocol == 6) else ('UDP' if (row.tcp_protocol == 17) else ('ICMP' if (row.tcp_protocol == 1) else r))
+
+    links = [lambda row: A('Geoloc the IP >',_href=URL("trackrctrl","DisplayTrackRIPGeo", vars=dict(Enter_IP_Address=row.ip_addr)))]
+
+    gridIPANALYZED = SQLFORM.grid( query=myquery, headers=headers, fields=fields, links=links, showbuttontext=False, exportclasses=export_classes, orderby=~db.ipanalyzed.datetime, deletable=False, editable=False, details=False, selectable=False)
+    return dict( gridIPANALYZED = gridIPANALYZED)
+
+@auth.requires_login()
+def DisplayLOGANALYZEDDbGrid():
+    export_classes = dict(csv=True, json=False, html=False,
+                          tsv=False, xml=False, csv_with_hidden_cols=False,
+                          tsv_with_hidden_cols=False)
+    myquery = (db.loganalyzed.idn != None) | (db.loganalyzed.idn < 10)
+    gridIPANALYZED = SQLFORM.grid(myquery, showbuttontext=False, exportclasses=export_classes, orderby=~db.loganalyzed.datetime)
+    return dict( gridIPANALYZED = gridIPANALYZED)
