@@ -18,7 +18,7 @@ selectVersion() {
 	python -c "from gluon.main import save_password; save_password('$WEB2PY_PASSWORD',443)"
     fi
       # run uwsgi
-    runuser -u web2py -- uwsgi --socket 0.0.0.0:8080 --protocol uwsgi --wsgi wsgihandler:application $UWSGI_OPTIONS &
+    runuser --pty -u web2py -- uwsgi --socket 0.0.0.0:8080 --protocol uwsgi --wsgi wsgihandler:application $UWSGI_OPTIONS &
 #fi
 
 # Run uWSGI using http
