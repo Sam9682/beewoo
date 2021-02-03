@@ -10,7 +10,7 @@ selectVersion() {
 }
 
 # Run uWSGI using the uwsgi protocol
-if [ "$1" = 'uwsgi' ]; then
+#if [ "$1" = 'uwsgi' ]; then
 # switch to a particular Web2py version if specificed
     selectVersion
       # add an admin password if specified
@@ -19,7 +19,7 @@ if [ "$1" = 'uwsgi' ]; then
     fi
       # run uwsgi
     exec uwsgi --socket 0.0.0.0:9090 --protocol uwsgi --wsgi wsgihandler:application $UWSGI_OPTIONS
-fi
+#fi
 
 # Run uWSGI using http
 if [ "$1" = 'http' ]; then
