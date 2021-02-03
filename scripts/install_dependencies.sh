@@ -3,6 +3,8 @@ yum -y update
 yum -y install gcc git pcre-devel python-devel python-pip tkinter postgresql  
 pip install --upgrade pip  
 pip install uwsgi  
+mkdir /var/www
+mkdir /var/www/html
 mkdir /var/www/html/web2py
 export WEB2PY_ROOT=/var/www/html/web2py
 #git clone --recursive https://github.com/web2py/web2py.git $WEB2PY_ROOT  
