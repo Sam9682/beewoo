@@ -1,8 +1,6 @@
 #!/bin/bash
 yum -y update 
 yum -y install gcc git pcre-devel python-devel python-pip tkinter postgresql postgresql-devel
-pip install --upgrade pip  
-pip install uwsgi psycopg2
 mkdir /var/www
 mkdir /var/www/html
 mkdir /var/www/html/web2py
