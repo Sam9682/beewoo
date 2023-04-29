@@ -1,4 +1,4 @@
-FROM centos/python-38-centos7:latest
+FROM public.ecr.aws/amazonlinux/amazonlinux:2
 # Add application sources to a directory that the assemble script expects them
 # and set permissions so that the container runs without root access
 USER 0
