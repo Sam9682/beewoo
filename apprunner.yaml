@@ -3,8 +3,8 @@ runtime: python3
 build:
   commands:
     build:
-    - ./scritps/install_dependencies.sh
+    - ./scripts/install_dependencies.sh
 run:
-  command: ./scritps/start_server.sh
+  command: ./scripts/start_server.sh
   network:
     port: 8080
