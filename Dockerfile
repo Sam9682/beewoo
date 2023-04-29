@@ -23,5 +23,4 @@ RUN . /etc/profile
 RUN pip3 install psycopg2 simplejson pyparse pyparsing numpy scipy scikit-learn pandas matplotlib setuptools_rust pyjwt urllib3
 USER web2py
 RUN . /etc/profile
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh","http"]
-CMD ["/bin/bash"]  
+CMD ["./entrypoint.sh","http"]
