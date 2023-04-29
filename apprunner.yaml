@@ -3,9 +3,8 @@ runtime: python3
 build:
   commands:
     build:
-    - yum install -y pycairo
-    - pip install -r requirements.txt
+    - ./scritps/install_dependencies.sh
 run:
   command: python app.py
   network:
-    port: 8000
+    port: 8080
