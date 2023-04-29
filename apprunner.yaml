@@ -3,6 +3,8 @@ runtime: python3
 build:
   commands:
     build:
+    - chmod a+x ./scripts/install_dependencies.sh
+    - chmod a+x ./scripts/start_server.sh
     - ./scripts/install_dependencies.sh
 run:
   command: ./scripts/start_server.sh
