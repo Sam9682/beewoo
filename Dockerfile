@@ -9,8 +9,8 @@ RUN gunzip ./Python-3.8.0.tgz
 RUN tar -xf ./Python-3.8.0.tar
 WORKDIR ./Python-3.8.0
 RUN ./configure --enable-optimizations
-RUN ./make -j 8
-RUN ./make altinstall
+RUN make -j 8
+RUN make altinstall
 WORKDIR ..
 RUN wget https://bootstrap.pypa.io/get-pip.py
 RUN python3.8 get-pip.py
