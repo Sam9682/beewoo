@@ -3,7 +3,7 @@ FROM public.ecr.aws/amazonlinux/amazonlinux:2
 # and set permissions so that the container runs without root access
 USER 0
 RUN yum -y update
-RUN yum -y install gcc openssl-devel bzip2-devel libffi-devel zlib-devel wget
+RUN yum -y install gcc openssl-devel bzip2-devel libffi-devel zlib-devel wget tar
 RUN wget https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tgz
 RUN tar -xf Python-3.8.0.tgz
 RUN cd Python-3.8.0
