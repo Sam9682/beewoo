@@ -2,7 +2,24 @@ FROM public.ecr.aws/amazonlinux/amazonlinux:2
 # Add application sources to a directory that the assemble script expects them
 # and set permissions so that the container runs without root access
 USER 0
-RUN yum -y update && yum -y install epel-release  && yum -y install gcc git pcre-devel python3-devel python3-pip tkinter postgresql && pip install --upgrade pip  && pip install uwsgi  && git clone --recursive https://github.com/web2py/web2py.git /opt/web2py && mv /opt/web2py/handlers/wsgihandler.py /opt/web2py && groupadd -g 1000 web2py && useradd -r -u 1000 -g web2py web2py
+RUN yum -y update
+RUN sudo yum install gcc openssl-devel bzip2-devel libffi-devel zlib-devel wget
+RUN wget https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tgz
+RUN tar -xf Python-3.8.0.tgz
+RUN cd Python-3.8.0
+RUN ./configure --enable-optimizations
+RUN make -j 8
+RUN sudo make altinstall
+RUN wget https://bootstrap.pypa.io/get-pip.py
+RUN sudo python3.8 get-pip.py
+RUN sudo yum install git tkinter postgresql 
+RUN pip install --upgrade pip
+RUN pip install uwsgi
+RUN pip3 install psycopg2 simplejson pyparse pyparsing numpy scipy scikit-learn pandas matplotlib setuptools_rust pyjwt urllib3
+RUN git clone --recursive https://github.com/web2py/web2py.git /opt/web2py
+RUN mv /opt/web2py/handlers/wsgihandler.py /opt/web2py
+RUN groupadd -g 1000 web2py
+RUN useradd -r -u 1000 -g web2py web2py
 EXPOSE 8080
 LABEL AUTHOR="Samuel LEPETRE <slepetre@amazon.fr>"
 ENV WEB2PY_ROOT=/opt/web2py
@@ -20,7 +37,6 @@ RUN chown -R web2py /usr/local/bin/
 RUN echo "db ${DB-BEEWOO}" > /etc/host.aliases
 RUN echo "export HOSTALIASES=/etc/host.aliases" >> /etc/profile
 RUN . /etc/profile
-RUN pip3 install psycopg2 simplejson pyparse pyparsing numpy scipy scikit-learn pandas matplotlib setuptools_rust pyjwt urllib3
 USER web2py
 RUN . /etc/profile
 CMD ["./entrypoint.sh","http"]
