@@ -7,8 +7,8 @@ RUN yum -y install gcc openssl-devel bzip2-devel libffi-devel zlib-devel wget ta
 RUN wget https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tgz
 RUN gunzip ./Python-3.8.0.tgz
 RUN tar -xf ./Python-3.8.0.tar
-RUN cd Python-3.8.0
-RUN ls && ./configure --enable-optimizations
+WORKDIR ./Python-3.8.0
+RUN ./configure --enable-optimizations
 RUN make -j 8
 RUN make altinstall
 RUN wget https://bootstrap.pypa.io/get-pip.py
