@@ -3,7 +3,7 @@ FROM public.ecr.aws/amazonlinux/amazonlinux:2
 # and set permissions so that the container runs without root access
 USER 0
 RUN yum -y update
-RUN yum install gcc openssl-devel bzip2-devel libffi-devel zlib-devel wget
+RUN yum -y install gcc openssl-devel bzip2-devel libffi-devel zlib-devel wget
 RUN wget https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tgz
 RUN tar -xf Python-3.8.0.tgz
 RUN cd Python-3.8.0
@@ -12,7 +12,7 @@ RUN make -j 8
 RUN make altinstall
 RUN wget https://bootstrap.pypa.io/get-pip.py
 RUN python3.8 get-pip.py
-RUN yum install git tkinter postgresql 
+RUN yum -y install git tkinter postgresql 
 RUN pip install --upgrade pip
 RUN pip install uwsgi
 RUN pip3 install psycopg2 simplejson pyparse pyparsing numpy scipy scikit-learn pandas matplotlib setuptools_rust pyjwt urllib3
