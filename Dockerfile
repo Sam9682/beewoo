@@ -40,4 +40,4 @@ RUN echo "export HOSTALIASES=/etc/host.aliases" >> /etc/profile
 RUN . /etc/profile
 USER web2py
 RUN . /etc/profile
-CMD ["./entrypoint.sh","http"]
+CMD ["entrypoint.sh","http"]
