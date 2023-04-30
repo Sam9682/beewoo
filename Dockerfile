@@ -16,7 +16,7 @@ RUN wget https://bootstrap.pypa.io/get-pip.py
 RUN python3.8 get-pip.py
 RUN pip install --upgrade pip
 RUN pip install uwsgi
-RUN pip install psycopg2 simplejson pyparse pyparsing numpy scipy scikit-learn pandas matplotlib setuptools_rust pyjwt urllib3
+RUN pip install simplejson pyparse pyparsing numpy scipy scikit-learn pandas matplotlib setuptools_rust pyjwt urllib3
 RUN git clone --recursive https://github.com/web2py/web2py.git /opt/web2py
 RUN mv /opt/web2py/handlers/wsgihandler.py /opt/web2py
 RUN groupadd -g 1000 web2py
