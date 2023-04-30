@@ -32,7 +32,7 @@ ENV DB-BEEWOO=othsec.cluster-ctanxovsyvqd.eu-west-1.rds.amazonaws.com
 ENV DB-PASSWORD=Asbaasba1
 WORKDIR /opt/web2py
 ADD ./web2py /opt/web2py
-ADD ./entrypoint.sh /usr/local/bin/
+ADD entrypoint.sh /usr/local/bin/
 RUN chown -R web2py /opt/web2py/
 RUN chown -R web2py /usr/local/bin/
 RUN echo "db ${DB-BEEWOO}" > /etc/host.aliases
