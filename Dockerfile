@@ -33,8 +33,9 @@ ENV DB-PASSWORD=Asbaasba1
 WORKDIR /opt/web2py
 ADD ./web2py /opt/web2py
 ADD entrypoint.sh /usr/local/bin/
-RUN chown -R web2py /opt/web2py/
-RUN chown -R web2py /usr/local/bin/
+RUN chown -R web2py:web2py /opt/web2py/
+RUN chown -R web2py:web2py /usr/local/bin/
+RUN chmod a+x /usr/local/bin/entrypoint.sh
 RUN echo "db ${DB-BEEWOO}" > /etc/host.aliases
 RUN echo "export HOSTALIASES=/etc/host.aliases" >> /etc/profile
 RUN . /etc/profile
